@@ -1,6 +1,6 @@
-from podcast.ml.inference.rl_bandit import HybridLinUCBModel
-from podcast.generate_graph_nodes import InterestGraph
-from podcast.ml.retrieval.merger import Merger
+from backend.podcast.ml.inference.rl_bandit import HybridLinUCBModel
+from backend.podcast.generate_graph_nodes import InterestGraph
+from backend.podcast.ml.retrieval.merger import Merger
 
 url = "backend/podcast/ml/retrieval/db/"
 merger = Merger(db_path = url)

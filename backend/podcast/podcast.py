@@ -1,19 +1,17 @@
 import os
+import sys
 import uuid
 from datetime import datetime
 from dotenv import load_dotenv
 
-print(os.getcwd())
+# Add project root to Python path for absolute imports
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 from backend.podcast.agents.audio.audio_generation import PodcastAudioGenerator
 from backend.podcast.agents.pipeline import NewsPodcastPipeline
-
 from backend.podcast.AppData import AppData
-from backend.podcast.agents.audio.audio_generation import PodcastAudioGenerator
-from backend.podcast.agents.pipeline import NewsPodcastPipeline
-
-print(os.getcwd())
-from backend.podcast.agents.audio.audio_generation import PodcastAudioGenerator
-from backend.podcast.agents.pipeline import NewsPodcastPipeline
 
 import json
 

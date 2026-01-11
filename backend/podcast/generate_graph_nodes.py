@@ -1,6 +1,6 @@
 from sklearn.manifold import TSNE
-from podcast.ml.retrieval.merger import Merger
-from podcast.ml.inference.rl_bandit import HybridLinUCBModel
+from backend.podcast.ml.retrieval.merger import Merger
+from backend.podcast.ml.inference.rl_bandit import HybridLinUCBModel
 import numpy as np
 import math
 

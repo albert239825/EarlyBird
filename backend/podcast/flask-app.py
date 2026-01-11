@@ -1,20 +1,21 @@
 import sys 
 import os
 import threading
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# Add project root to Python path for absolute imports
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 from flask import Flask, request, send_from_directory, jsonify
 from flask_cors import CORS
 import logging
-from podcast import PodcastRunner
-from backend.podcast.agents.pipeline import NewsPodcastPipeline
+from backend.podcast.podcast import PodcastRunner
 from backend.podcast.agents.pipeline import NewsPodcastPipeline
 from typing import Dict, Any
 import json
 from flask_socketio import SocketIO, emit
 
 from backend.podcast.AppData import AppData
-
-from podcast.global_instances import rl_model, graph
+from backend.podcast.global_instances import rl_model, graph
 import whisper
 
 # Configure logging
