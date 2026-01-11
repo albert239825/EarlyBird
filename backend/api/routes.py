@@ -32,10 +32,16 @@ def setup_routes(app, service: PodcastService):
     def generate():
         """Start podcast generation."""
         try:
-            thread = threading.Thread(target=service.generate_podcast)
+            payload = request.get_json(silent=True) or {}
+            num_articles = int(payload.get("num_articles", 2))
+
+            podcast_dir = service.create_podcast_dir()
+            podcast_id = podcast_dir.name
+
+            thread = threading.Thread(target=service.generate_podcast, args=(podcast_dir, num_articles))
             thread.daemon = True
             thread.start()
-            return jsonify({"message": "Podcast generation started"}), 200
+            return jsonify({"podcast_id": podcast_id}), 200
         except Exception as e:
             logger.exception(f"Error in /generate route: {str(e)}")
             return jsonify({"error": "Internal server error"}), 500

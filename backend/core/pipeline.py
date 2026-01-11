@@ -4,11 +4,13 @@ Podcast generation pipeline - orchestrates AI agents to create podcasts.
 from backend.agents.scraper import NewsScraperAgent
 from backend.agents.researcher import DeepResearchAgent
 from backend.agents.script_generator import PodcastScriptGenerator
+from backend.agents.openai_script_writer import OpenAIScriptWriter
 from backend.audio.generator import PodcastAudioGenerator
 from backend.models.article import SimpleArticle
 from backend.core.state_manager import PodcastState
 from backend.utils.logging_config import get_logger
-from typing import List
+from pathlib import Path
+from typing import Any, Dict, List
 import os
 import re
 import json
@@ -39,6 +41,7 @@ class PodcastPipeline:
         self.researcher = DeepResearchAgent(perplexity_api_key)
         self.script_generators = []
         self.mistral_api_key = mistral_api_key
+        self.openai_script_writer = OpenAIScriptWriter(openai_api_key)
         self.state = state
 
     def parse_scraper_response(self, response: str) -> str:
@@ -151,6 +154,98 @@ class PodcastPipeline:
             news_item_index += 1
             
         return script
+
+    def generate_research_and_script_assets(self, podcast_dir: Path, num_articles: int = 2) -> Dict[str, Any]:
+        """
+        Phase 1: generate and persist research docs + HQ script utterances (no TTS).
+        Writes:
+          - <podcast_dir>/podcast.json
+          - <podcast_dir>/research/story_<i>.md
+          - <podcast_dir>/script/story_<i>.json
+        """
+        podcast_dir.mkdir(parents=True, exist_ok=True)
+        research_dir = podcast_dir / "research"
+        script_dir = podcast_dir / "script"
+        research_dir.mkdir(parents=True, exist_ok=True)
+        script_dir.mkdir(parents=True, exist_ok=True)
+
+        logger.info("Generating news articles using Perplexity...")
+        news_articles: List[SimpleArticle] = self._get_articles_from_perplexity(num_articles=num_articles)
+
+        # Update state early so clients can render placeholders
+        self.state.set_articles([{
+            "article_data": article,
+            "total_articles": num_articles
+        } for article in news_articles])
+        self.state.current_article_index = 0
+        self.state.emit_articles()
+
+        stories_meta: List[Dict[str, Any]] = []
+        for story_index, story in enumerate(news_articles):
+            logger.info(f"[story {story_index}] Researching via Perplexity...")
+            researched = self.researcher.research_stories(story.title, story.abstract)
+            research_payload = researched[0]["research"]
+            research_text = research_payload["choices"][0]["message"]["content"]
+            citations = research_payload.get("citations", [])
+
+            research_md = "\n".join([
+                "## Core_summary",
+                research_text.strip(),
+                "",
+                "## Key_facts",
+                "",
+                "## Q_and_A_additions",
+                "",
+                "## Citations",
+                "\n".join(f"- {c}" for c in citations) if citations else "- (none)",
+                "",
+            ])
+
+            (research_dir / f"story_{story_index}.md").write_text(research_md, encoding="utf-8")
+
+            # Update state with research (for UI)
+            self.state.update_article_research(story_index, research_text)
+            self.state.emit_articles()
+
+            logger.info(f"[story {story_index}] Writing HQ script via OpenAI...")
+            utterances = self.openai_script_writer.write_story_script(
+                headline=story.title,
+                research_md=research_md,
+            )
+
+            script_obj = {
+                "story_index": story_index,
+                "utterances": utterances,
+            }
+            (script_dir / f"story_{story_index}.json").write_text(
+                json.dumps(script_obj, indent=2, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            # Update state with a compatible structure for current clients
+            self.state.update_article_script(story_index, {
+                "to_generate_index": len(utterances),
+                "main_remaining": 0,
+                "is_host": True,
+                "utterances": utterances,
+                "texts": [{"role": u["speaker"], "content": u["text"]} for u in utterances],
+            })
+            self.state.emit_articles()
+
+            stories_meta.append({
+                "story_index": story_index,
+                "title": story.title,
+            })
+
+        podcast_json = {
+            "podcast_id": podcast_dir.name,
+            "stories": stories_meta,
+        }
+        (podcast_dir / "podcast.json").write_text(
+            json.dumps(podcast_json, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        return podcast_json
    
     def generate_next_part_podcast(self, index: int) -> str:
         """

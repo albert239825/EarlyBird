@@ -3,7 +3,6 @@ Podcast service - main business logic for podcast generation.
 """
 from pathlib import Path
 from backend.core.pipeline import PodcastPipeline
-from backend.audio.generator import PodcastAudioGenerator
 from backend.storage.podcast_storage import PodcastStorage
 from backend.storage.paths import generate_podcast_dir
 from backend.core.state_manager import PodcastState
@@ -28,40 +27,36 @@ class PodcastService:
         """
         self.state = state if state else PodcastState()
         self.backend_root = Config.BACKEND_ROOT
-        
-        # Generate unique podcast directory
-        self.podcast_dir = generate_podcast_dir(Config.PODCAST_DIR)
-        
-        # Initialize components
+
+        # Initialize components (create per-run podcast dirs later)
         self.pipeline = PodcastPipeline(
             perplexity_api_key=Config.PERPLEXITY_API_KEY,
             openai_api_key=Config.OPENAI_API_KEY,
             mistral_api_key=Config.MISTRAL_API_KEY,
             state=self.state
         )
-        self.audio_generator = PodcastAudioGenerator(output_dir=str(self.podcast_dir))
         self.storage = PodcastStorage(self.backend_root)
 
-    def generate_podcast(self):
-        """Generate a complete podcast"""
-        logger.info("Starting podcast generation...")
-        
-        # Generate the script
-        script = self.pipeline.generate_podcast()
-        logger.info("Script generated, saving transcript...")
-        
-        # Save the transcript
-        transcript_path = self.storage.save_transcript(script, self.podcast_dir)
-        
-        # Save metadata
-        self.storage.save_metadata(self.podcast_dir)
-        
-        logger.info(f"Podcast generation complete: {self.podcast_dir}")
-        
-        return {
-            'transcript_path': str(transcript_path),
-            'podcast_dir': str(self.podcast_dir)
-        }
+    def create_podcast_dir(self) -> Path:
+        """Create a unique podcast directory and return it."""
+        return generate_podcast_dir(Config.PODCAST_DIR)
+
+    def generate_podcast(self, podcast_dir: Path, num_articles: int = 2):
+        """
+        Phase 1 generation: research docs + HQ script utterances (no TTS).
+        """
+        logger.info(f"Starting podcast generation for: {podcast_dir.name}")
+
+        podcast_json = self.pipeline.generate_research_and_script_assets(
+            podcast_dir=podcast_dir,
+            num_articles=num_articles,
+        )
+
+        # Save metadata centrally (minimally, just point at the directory)
+        self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
+        logger.info(f"Podcast generation complete: {podcast_dir} ({len(podcast_json.get('stories', []))} stories)")
+
+        return podcast_json
     
     def generate_next_part(self, index: int):
         """
