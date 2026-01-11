@@ -1,0 +1,1669 @@
+{
+    "status": "OK",
+    "copyright": "Copyright (c) 2025 The New York Times Company. All Rights Reserved.",
+    "section": "home",
+    "last_updated": "2025-02-15T03:16:37-05:00",
+    "num_results": 26,
+    "results": [
+        {
+            "section": "nyregion",
+            "subsection": "",
+            "title": "A Justice Dept. in Turmoil Moves to Dismiss Eric Adams’s Corruption Case",
+            "abstract": "New York City’s mayor was accused of bribery, fraud and soliciting illegal foreign campaign donations. President Trump’s administration wants him free to help with mass deportations.",
+            "url": "https://www.nytimes.com/2025/02/14/nyregion/eric-adams-drop-charges-sdny.html",
+            "uri": "nyt://article/42b8b591-2fa8-5bad-b0fa-9b18adcc08d3",
+            "byline": "By Benjamin Weiser, William K. Rashbaum and Jonah E. Bromwich",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T22:10:24-05:00",
+            "created_date": "2025-02-14T18:34:18-05:00",
+            "published_date": "2025-02-14T18:34:18-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [],
+            "org_facet": [
+                "Justice Department"
+            ],
+            "per_facet": [
+                "Adams, Eric L",
+                "Trump, Donald J",
+                "Bondi, Pamela J",
+                "Bove, Emil",
+                "Clayton, Walter J"
+            ],
+            "geo_facet": [
+                "New York City"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/00sdny-adams-bzmv/00sdny-adams-bzmv-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Mayor Eric Adams faces corruption charges. The government has asked a judge for permission to put the case on hold.",
+                    "copyright": "Dave Sanders for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/00sdny-adams-bzmv/00sdny-adams-bzmv-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Mayor Eric Adams faces corruption charges. The government has asked a judge for permission to put the case on hold.",
+                    "copyright": "Dave Sanders for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/00sdny-adams-bzmv/00sdny-adams-bzmv-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Mayor Eric Adams faces corruption charges. The government has asked a judge for permission to put the case on hold.",
+                    "copyright": "Dave Sanders for The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "us",
+            "subsection": "politics",
+            "title": "A Rupture on the Right Over Prosecutors, Politics and the Rule of Law",
+            "abstract": "Differing interpretations of Attorney General Robert H. Jackson’s classic 1940 speech, “The Federal Prosecutor,” figured in Thursday’s showdown in the Eric Adams case.",
+            "url": "https://www.nytimes.com/2025/02/14/us/politics/trump-prosecutors-law.html",
+            "uri": "nyt://article/5cb7589d-c0f6-5749-8dc4-c063d92a5395",
+            "byline": "By Adam Liptak",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T14:20:47-05:00",
+            "created_date": "2025-02-14T13:55:46-05:00",
+            "published_date": "2025-02-14T13:55:46-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Presidential Power (US)",
+                "Legal Profession",
+                "Attorneys General"
+            ],
+            "org_facet": [],
+            "per_facet": [
+                "Adams, Eric L",
+                "Jackson, Robert Houghwout",
+                "Trump, Donald J",
+                "Sassoon, Danielle R",
+                "Emil Bove III"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-prosecutor01-photo-qwvg/14dc-prosecutor01-photo-qwvg-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 2048,
+                    "width": 1504,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "“The prosecutor has more control over life, liberty and reputation than any other person in America,” Robert H. Jackson said in 1940 while serving as attorney general.",
+                    "copyright": "Oscar White/Corbis, via Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-prosecutor01-photo-qwvg/14dc-prosecutor01-photo-qwvg-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "“The prosecutor has more control over life, liberty and reputation than any other person in America,” Robert H. Jackson said in 1940 while serving as attorney general.",
+                    "copyright": "Oscar White/Corbis, via Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-prosecutor01-photo-qwvg/14dc-prosecutor01-photo-qwvg-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "“The prosecutor has more control over life, liberty and reputation than any other person in America,” Robert H. Jackson said in 1940 while serving as attorney general.",
+                    "copyright": "Oscar White/Corbis, via Getty Images"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "nyregion",
+            "subsection": "",
+            "title": "Judges Generally Let Prosecutors Drop Charges. Maybe Not for Adams.",
+            "abstract": "Judge Dale E. Ho will weigh the request after the resignation of Manhattan’s U.S. attorney and her accusations of misconduct.",
+            "url": "https://www.nytimes.com/2025/02/14/nyregion/adams-charges-judge.html",
+            "uri": "nyt://article/d44c07cf-2069-5e62-8d55-e46fdc3f11c6",
+            "byline": "By Benjamin Weiser and Jonah E. Bromwich",
+            "item_type": "Article",
+            "updated_date": "2025-02-15T00:05:00-05:00",
+            "created_date": "2025-02-14T18:54:03-05:00",
+            "published_date": "2025-02-14T18:54:03-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "United States Politics and Government",
+                "Ethics and Official Misconduct",
+                "Decisions and Verdicts",
+                "Corruption (Institutional)",
+                "United States Attorneys",
+                "Eric Adams Federal Corruption Case (24 CR 556)"
+            ],
+            "org_facet": [],
+            "per_facet": [
+                "Ho, Dale E",
+                "Bove, Emil",
+                "Adams, Eric L"
+            ],
+            "geo_facet": [
+                "Manhattan (NYC)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/04/nyregion/00adams-case-judge-powers/00adams-case-judge-powers-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Elizabeth Frantz/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/04/nyregion/00adams-case-judge-powers/00adams-case-judge-powers-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Elizabeth Frantz/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/04/nyregion/00adams-case-judge-powers/00adams-case-judge-powers-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Elizabeth Frantz/Reuters"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "us",
+            "subsection": "politics",
+            "title": "Layoffs Expand at Federal Agencies, Part of Trump Purge",
+            "abstract": "Mass firings have rocked multiple agencies as President Trump and Elon Musk ramp up plans to drastically slash and reshape the federal work force.",
+            "url": "https://www.nytimes.com/2025/02/14/us/politics/energy-department-layoffs.html",
+            "uri": "nyt://article/eb268072-5ae4-51b0-9919-5e0642776ce9",
+            "byline": "By Madeleine Ngo and Brad Plumer",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T23:23:55-05:00",
+            "created_date": "2025-02-14T15:22:46-05:00",
+            "published_date": "2025-02-14T15:22:46-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "United States Politics and Government",
+                "Government Employees",
+                "Layoffs and Job Reductions",
+                "Motivation and Incentive Programs"
+            ],
+            "org_facet": [
+                "American Federation of Government Employees",
+                "Bonneville Power Administration",
+                "Energy Department",
+                "National Nuclear Security Administration"
+            ],
+            "per_facet": [],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-federal-workers-bqtm/14dc-federal-workers-bqtm-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Federal workers protesting in Washington on Tuesday.",
+                    "copyright": "Kent Nishimura/Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-federal-workers-bqtm/14dc-federal-workers-bqtm-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Federal workers protesting in Washington on Tuesday.",
+                    "copyright": "Kent Nishimura/Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-federal-workers-bqtm/14dc-federal-workers-bqtm-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Federal workers protesting in Washington on Tuesday.",
+                    "copyright": "Kent Nishimura/Getty Images"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "us",
+            "subsection": "politics",
+            "title": "Judge Refuses to Immediately Reinstate Inspectors General Fired by Trump",
+            "abstract": "Judge Ana C. Reyes, a Biden appointee, excoriated lawyers representing the former government watchdogs for how they handled their emergency request, but let the lawsuit proceed on a slower timeline.",
+            "url": "https://www.nytimes.com/2025/02/14/us/politics/trump-inspectors-general-ruling.html",
+            "uri": "nyt://article/0410fb43-8860-5506-b553-00c14dccbc1b",
+            "byline": "By Chris Cameron",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T23:55:24-05:00",
+            "created_date": "2025-02-14T19:59:24-05:00",
+            "published_date": "2025-02-14T19:59:24-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "United States Politics and Government",
+                "Inspectors General",
+                "Suits and Litigation (Civil)",
+                "Decisions and Verdicts",
+                "Appointments and Executive Changes"
+            ],
+            "org_facet": [
+                "Justice Department"
+            ],
+            "per_facet": [
+                "Trump, Donald J",
+                "Reyes, Ana C"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14trump-news-ig-ruling-judge-pjkl/14trump-news-ig-ruling-judge-pjkl-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1366,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Judge Ana C. Reyes, shown at her confirmation hearing in 2022, sharply criticized the plaintiffs’ lawyers: “Why on earth did you not have this figured out with the defendants before coming here?”",
+                    "copyright": "Sarah Silbiger/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14trump-news-ig-ruling-judge-pjkl/14trump-news-ig-ruling-judge-pjkl-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Judge Ana C. Reyes, shown at her confirmation hearing in 2022, sharply criticized the plaintiffs’ lawyers: “Why on earth did you not have this figured out with the defendants before coming here?”",
+                    "copyright": "Sarah Silbiger/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14trump-news-ig-ruling-judge-pjkl/14trump-news-ig-ruling-judge-pjkl-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Judge Ana C. Reyes, shown at her confirmation hearing in 2022, sharply criticized the plaintiffs’ lawyers: “Why on earth did you not have this figured out with the defendants before coming here?”",
+                    "copyright": "Sarah Silbiger/Reuters"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "us",
+            "subsection": "politics",
+            "title": "Judge Lets Musk’s Team Keep Access to Records at Some Agencies, for Now",
+            "abstract": "Judge John D. Bates ruled that he had grave concerns about the privacy issues raised but that the case did not meet the high legal bar for immediately blocking access.",
+            "url": "https://www.nytimes.com/2025/02/14/us/politics/doge-musk-cfpb-labor-hhs.html",
+            "uri": "nyt://article/ac77dfab-94c5-5a79-89da-43a3eee63ea2",
+            "byline": "By Chris Cameron",
+            "item_type": "Article",
+            "updated_date": "2025-02-15T00:40:18-05:00",
+            "created_date": "2025-02-15T00:26:36-05:00",
+            "published_date": "2025-02-15T00:26:36-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Decisions and Verdicts",
+                "United States Politics and Government",
+                "Government Employees",
+                "Privacy"
+            ],
+            "org_facet": [
+                "American Federation of Labor-Congress of Industrial Organizations",
+                "Consumer Financial Protection Bureau",
+                "Government Efficiency Department (US)",
+                "Health and Human Services Department",
+                "Labor Department (US)"
+            ],
+            "per_facet": [
+                "Musk, Elon",
+                "Trump, Donald J",
+                "Bates, John D"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/03/14/multimedia/14trump-news-DOGE-records-ruling-gkqb/14trump-news-DOGE-records-ruling-gkqb-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1366,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Members of the American Federation of Government Employees union gathered in Washington this week to protest cuts by Elon Musk and the so-called Department of Government Efficiency.",
+                    "copyright": "Samuel Corum for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/03/14/multimedia/14trump-news-DOGE-records-ruling-gkqb/14trump-news-DOGE-records-ruling-gkqb-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Members of the American Federation of Government Employees union gathered in Washington this week to protest cuts by Elon Musk and the so-called Department of Government Efficiency.",
+                    "copyright": "Samuel Corum for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/03/14/multimedia/14trump-news-DOGE-records-ruling-gkqb/14trump-news-DOGE-records-ruling-gkqb-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Members of the American Federation of Government Employees union gathered in Washington this week to protest cuts by Elon Musk and the so-called Department of Government Efficiency.",
+                    "copyright": "Samuel Corum for The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "world",
+            "subsection": "europe",
+            "title": "Vance Tells Europeans to Stop Shunning Parties Deemed Extreme",
+            "abstract": "His comments shocked attendees at the Munich Security Conference and seemed to target efforts to sideline the hard-right party the Alternative for Germany.",
+            "url": "https://www.nytimes.com/2025/02/14/world/europe/vance-europe-immigration-ukraine.html",
+            "uri": "nyt://article/b9ed104a-65f0-5816-9964-9ef30af8bd58",
+            "byline": "By Jim Tankersley, Steven Erlanger and David E. Sanger",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T21:56:11-05:00",
+            "created_date": "2025-02-14T09:44:17-05:00",
+            "published_date": "2025-02-14T09:44:17-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "United States Politics and Government",
+                "Right-Wing Extremism and Alt-Right"
+            ],
+            "org_facet": [
+                "Christian Democratic Union (Germany)",
+                "Alternative for Germany"
+            ],
+            "per_facet": [
+                "Vance, J D",
+                "Zelensky, Volodymyr",
+                "Trump, Donald J"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14munich-vance-vfkc/14munich-vance-vfkc-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1342,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Vice President JD Vance speaking at the Munich Security Conference on Friday. ",
+                    "copyright": "Leah Millis/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14munich-vance-vfkc/14munich-vance-vfkc-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Vice President JD Vance speaking at the Munich Security Conference on Friday. ",
+                    "copyright": "Leah Millis/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14munich-vance-vfkc/14munich-vance-vfkc-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Vice President JD Vance speaking at the Munich Security Conference on Friday. ",
+                    "copyright": "Leah Millis/Reuters"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "world",
+            "subsection": "europe",
+            "title": "High Above Chernobyl, Workers Grapple With Ice, Fire and Nuclear Fears",
+            "abstract": "After an apparent drone strike blew a hole in the protective shell, there is an urgent need to patch what covers the wreckage of the world’s worst nuclear accident.",
+            "url": "https://www.nytimes.com/2025/02/14/world/europe/chernobyl-drone-blast-scene.html",
+            "uri": "nyt://article/9cc1e216-7f09-5fdb-ab69-06e52832d6e6",
+            "byline": "By Kim Barker and Brendan Hoffman",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T17:00:40-05:00",
+            "created_date": "2025-02-14T16:15:42-05:00",
+            "published_date": "2025-02-14T16:15:42-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Russian Invasion of Ukraine (2022)",
+                "Drones (Pilotless Planes)",
+                "Nuclear Wastes"
+            ],
+            "org_facet": [],
+            "per_facet": [
+                "Zelensky, Volodymyr"
+            ],
+            "geo_facet": [
+                "Chernobyl (Ukraine)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14ukraine-Chernobyl-scene-fcbz/14ukraine-Chernobyl-scene-fcbz-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1366,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "The breach at the Chernobyl nuclear power plant was dangerous for many reasons, mainly because it jeopardized the safety of the protective shell covering Reactor No. 4.",
+                    "copyright": ""
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14ukraine-Chernobyl-scene-fcbz/14ukraine-Chernobyl-scene-fcbz-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "The breach at the Chernobyl nuclear power plant was dangerous for many reasons, mainly because it jeopardized the safety of the protective shell covering Reactor No. 4.",
+                    "copyright": ""
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14ukraine-Chernobyl-scene-fcbz/14ukraine-Chernobyl-scene-fcbz-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "The breach at the Chernobyl nuclear power plant was dangerous for many reasons, mainly because it jeopardized the safety of the protective shell covering Reactor No. 4.",
+                    "copyright": ""
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "world",
+            "subsection": "europe",
+            "title": "Zelensky Says Ukraine Unlikely to Survive Its War Without U.S. Support",
+            "abstract": "His comments came on the first day of the Munich Security Conference, where anxious European officials had hoped to learn more about U.S. plans to broker peace talks.",
+            "url": "https://www.nytimes.com/2025/02/14/world/europe/zelensky-nbc-meet-the-press.html",
+            "uri": "nyt://article/dc6b258d-06a8-56d6-be17-00f0ac85cc87",
+            "byline": "By Yonette Joseph",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T21:21:00-05:00",
+            "created_date": "2025-02-14T21:21:00-05:00",
+            "published_date": "2025-02-14T21:21:00-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Russian Invasion of Ukraine (2022)",
+                "Foreign Aid",
+                "United States International Relations"
+            ],
+            "org_facet": [
+                "National Broadcasting Co"
+            ],
+            "per_facet": [
+                "Zelensky, Volodymyr",
+                "Vance, J D",
+                "Trump, Donald J"
+            ],
+            "geo_facet": [
+                "Munich (Germany)",
+                "Russia",
+                "Ukraine",
+                "United States"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/03/14/multimedia/14zelensky-nbc-interview-fjwb/14zelensky-nbc-interview-fjwb-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "President Volodymyr Zelensky of Ukraine arriving at the Munich Security Conference on Friday.",
+                    "copyright": "Thomas Kienzle/Agence France-Presse — Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/03/14/multimedia/14zelensky-nbc-interview-fjwb/14zelensky-nbc-interview-fjwb-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "President Volodymyr Zelensky of Ukraine arriving at the Munich Security Conference on Friday.",
+                    "copyright": "Thomas Kienzle/Agence France-Presse — Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/03/14/multimedia/14zelensky-nbc-interview-fjwb/14zelensky-nbc-interview-fjwb-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "President Volodymyr Zelensky of Ukraine arriving at the Munich Security Conference on Friday.",
+                    "copyright": "Thomas Kienzle/Agence France-Presse — Getty Images"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "world",
+            "subsection": "europe",
+            "title": "Europeans Fear Trump Is Giving Up Leverage to Putin Even Before Peace Talks Begin",
+            "abstract": "Diplomats at the Munich Security Conference were uttering “appeasement,” with all its historical resonance, to describe the Trump administration’s approach to negotiations to end the war in Ukraine.",
+            "url": "https://www.nytimes.com/2025/02/14/world/europe/ukraine-russia-trump-munich.html",
+            "uri": "nyt://article/47c6fe0e-93cc-55a4-9619-c8fd124ab616",
+            "byline": "By David E. Sanger and Steven Erlanger",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T22:35:24-05:00",
+            "created_date": "2025-02-14T15:52:02-05:00",
+            "published_date": "2025-02-14T15:52:02-05:00",
+            "material_type_facet": "",
+            "kicker": "News Analysis",
+            "des_facet": [
+                "Russian Invasion of Ukraine (2022)",
+                "United States International Relations",
+                "International Relations",
+                "United States Politics and Government",
+                "Politics and Government",
+                "Defense and Military Forces",
+                "Peace Process",
+                "Speeches and Statements",
+                "United States Defense and Military Forces"
+            ],
+            "org_facet": [
+                "European Union",
+                "North Atlantic Treaty Organization"
+            ],
+            "per_facet": [
+                "Trump, Donald J",
+                "Putin, Vladimir V",
+                "Hegseth, Pete",
+                "Kallas, Kaja (1977- )",
+                "Vance, J D"
+            ],
+            "geo_facet": [
+                "France",
+                "Estonia",
+                "Europe",
+                "Germany",
+                "Great Britain",
+                "Ukraine",
+                "Russia",
+                "United States",
+                "Munich (Germany)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14ukraine-munich-1-hmwz/14ukraine-munich-1-hmwz-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1389,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Kaja Kallas, the top foreign policy official for the European Union, speaking at the Munich Security Conference on Friday.",
+                    "copyright": "Michaela Stache/Agence France-Presse — Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14ukraine-munich-1-hmwz/14ukraine-munich-1-hmwz-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Kaja Kallas, the top foreign policy official for the European Union, speaking at the Munich Security Conference on Friday.",
+                    "copyright": "Michaela Stache/Agence France-Presse — Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14ukraine-munich-1-hmwz/14ukraine-munich-1-hmwz-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Kaja Kallas, the top foreign policy official for the European Union, speaking at the Munich Security Conference on Friday.",
+                    "copyright": "Michaela Stache/Agence France-Presse — Getty Images"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "magazine",
+            "subsection": "",
+            "title": "‘You’ve Blown a Hole in the Family’: Inside the Murdochs’ Succession Drama",
+            "abstract": "More than 3,000 pages of documents reveal how years of betrayals led to a messy court battle that threatens the future of Rupert’s empire.",
+            "url": "https://www.nytimes.com/2025/02/13/magazine/rupert-murdoch-succession-family-trust-fight.html",
+            "uri": "nyt://article/2452c89d-7b4d-598e-a3f9-d87526285016",
+            "byline": "By Jonathan Mahler and Jim Rutenberg",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T11:40:42-05:00",
+            "created_date": "2025-02-13T15:46:23-05:00",
+            "published_date": "2025-02-13T15:46:23-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "United States Politics and Government",
+                "Television",
+                "News and News Media",
+                "Wills and Estates",
+                "Mergers, Acquisitions and Divestitures",
+                "Conservatism (US Politics)",
+                "Suits and Litigation (Civil)",
+                "internal-storyline-no"
+            ],
+            "org_facet": [
+                "21st Century Fox",
+                "Fox Corporation",
+                "Fox News Channel",
+                "News Corporation"
+            ],
+            "per_facet": [
+                "Angelo, Jesse",
+                "Barr, William P",
+                "Deng, Wendi",
+                "Hall, Jerry",
+                "Murdoch, Elisabeth",
+                "Murdoch, Lachlan",
+                "Murdoch, Prudence",
+                "Murdoch, Rupert",
+                "Trump, Donald J",
+                "Murdoch, James R"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/01/14/magazine/Murdoch-hp/Murdoch-tooper-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1246,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Photo illustration by Mike McQuade"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/01/14/magazine/Murdoch-hp/Murdoch-tooper-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Photo illustration by Mike McQuade"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/01/14/magazine/Murdoch-hp/Murdoch-tooper-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Photo illustration by Mike McQuade"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "magazine",
+            "subsection": "",
+            "title": "Six Takeaways About the Murdoch Succession Fight",
+            "abstract": "Here are the main revelations about the battle for control from a secret Nevada trial.",
+            "url": "https://www.nytimes.com/2025/02/13/magazine/murdoch-family-trust-dispute-takeaways.html",
+            "uri": "nyt://article/c28ebe50-afcc-5919-b640-52a71f000c3b",
+            "byline": "By Jim Rutenberg and Jonathan Mahler",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T13:34:24-05:00",
+            "created_date": "2025-02-13T15:52:17-05:00",
+            "published_date": "2025-02-13T15:52:17-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Conservatism (US Politics)",
+                "Television",
+                "News and News Media",
+                "Media",
+                "Wills and Estates",
+                "internal-storyline-no"
+            ],
+            "org_facet": [
+                "Fox Corporation",
+                "Fox News Channel",
+                "News Corporation"
+            ],
+            "per_facet": [
+                "Murdoch, Rupert",
+                "Murdoch, Lachlan",
+                "Murdoch, Prudence"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/01/14/magazine/00mag-15trust-takeaways-photo/00mag-15trust-takeaways-photo-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Rupert Murdoch arriving for the trial over the family trust in Reno, Nev., in September.",
+                    "copyright": "Fred Greaves/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/01/14/magazine/00mag-15trust-takeaways-photo/00mag-15trust-takeaways-photo-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Rupert Murdoch arriving for the trial over the family trust in Reno, Nev., in September.",
+                    "copyright": "Fred Greaves/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/01/14/magazine/00mag-15trust-takeaways-photo/00mag-15trust-takeaways-photo-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Rupert Murdoch arriving for the trial over the family trust in Reno, Nev., in September.",
+                    "copyright": "Fred Greaves/Reuters"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "business",
+            "subsection": "",
+            "title": "JD Vance Has a TikTok Problem. Can He Find a Solution?",
+            "abstract": "The vice president is in a tricky position as he looks for a deal to save the popular short-form video app, which is subject to being banned in the U.S. if it is not sold to a non-Chinese owner.",
+            "url": "https://www.nytimes.com/2025/02/14/business/jd-vance-tiktok.html",
+            "uri": "nyt://article/27585200-6bf9-55f4-a676-c66ad28f8469",
+            "byline": "By Sapna Maheshwari, Lauren Hirsch and David McCabe",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T20:04:22-05:00",
+            "created_date": "2025-02-14T20:04:22-05:00",
+            "published_date": "2025-02-14T20:04:22-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "United States Politics and Government",
+                "Computers and the Internet",
+                "Social Media",
+                "Mobile Applications",
+                "Presidential Election of 2024",
+                "Law and Legislation",
+                "Mergers, Acquisitions and Divestitures"
+            ],
+            "org_facet": [
+                "Beijing Bytedance Technology Co Ltd",
+                "TikTok (ByteDance)"
+            ],
+            "per_facet": [
+                "McCourt, Frank H Jr",
+                "Vance, J D"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/12/multimedia/00-vance-tiktok-01-cwmb/00-vance-tiktok-01-cwmb-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Vice President JD Vance has been asked by President Trump to find a new arrangement to save TikTok in the United States. ",
+                    "copyright": "Kenny Holston/The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/12/multimedia/00-vance-tiktok-01-cwmb/00-vance-tiktok-01-cwmb-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Vice President JD Vance has been asked by President Trump to find a new arrangement to save TikTok in the United States. ",
+                    "copyright": "Kenny Holston/The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/12/multimedia/00-vance-tiktok-01-cwmb/00-vance-tiktok-01-cwmb-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Vice President JD Vance has been asked by President Trump to find a new arrangement to save TikTok in the United States. ",
+                    "copyright": "Kenny Holston/The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "technology",
+            "subsection": "",
+            "title": "OpenAI Rejects Elon Musk’s $97.4 Billion Bid for Control of the Company",
+            "abstract": "Bret Taylor, the chairman of OpenAI’s board, said the artificial intelligence company was “not for sale.” Mr. Musk is separately raising money for his A.I. start-up, xAI.",
+            "url": "https://www.nytimes.com/2025/02/14/technology/openai-elon-musk.html",
+            "uri": "nyt://article/4b48b1ce-aa6a-5ebb-a100-a683cf703122",
+            "byline": "By Cade Metz, Mike Isaac and Jesus Jiménez",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T19:49:54-05:00",
+            "created_date": "2025-02-14T16:31:00-05:00",
+            "published_date": "2025-02-14T16:31:00-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Artificial Intelligence",
+                "Mergers, Acquisitions and Divestitures",
+                "Nonprofit Organizations",
+                "Letters",
+                "Computers and the Internet",
+                "Start-ups"
+            ],
+            "org_facet": [
+                "OpenAI Labs"
+            ],
+            "per_facet": [
+                "Altman, Samuel H",
+                "Musk, Elon"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14openai-musk-bret-lhbj/14openai-musk-bret-lhbj-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1536,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Bret Taylor, the chairman of the OpenAI board.",
+                    "copyright": "Jim Wilson/The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14openai-musk-bret-lhbj/14openai-musk-bret-lhbj-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Bret Taylor, the chairman of the OpenAI board.",
+                    "copyright": "Jim Wilson/The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14openai-musk-bret-lhbj/14openai-musk-bret-lhbj-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Bret Taylor, the chairman of the OpenAI board.",
+                    "copyright": "Jim Wilson/The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "technology",
+            "subsection": "",
+            "title": "With Trump’s Help, Intel Could Hand Control of Chip Plants to TSMC",
+            "abstract": "The Silicon Valley giant is trying to cut a deal it hopes would help it pull out of a yearslong slump.",
+            "url": "https://www.nytimes.com/2025/02/14/technology/intel-tsmc-talks-trump.html",
+            "uri": "nyt://article/23882a54-4675-592d-bf74-3f715406e174",
+            "byline": "By Tripp Mickle and Ana Swanson",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T20:35:26-05:00",
+            "created_date": "2025-02-14T19:40:33-05:00",
+            "published_date": "2025-02-14T19:40:33-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Computer Chips",
+                "Factories and Manufacturing",
+                "Computers and the Internet",
+                "International Trade and World Market"
+            ],
+            "org_facet": [
+                "Intel Corporation",
+                "Commerce Department",
+                "Taiwan Semiconductor Manufacturing Company Ltd"
+            ],
+            "per_facet": [
+                "Lutnick, Howard W"
+            ],
+            "geo_facet": [
+                "Taiwan"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/intel-dilemma-cfjk/intel-dilemma-cfjk-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1366,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "An Intel chip-making site in Chandler, Ariz. The company is looking into splitting its manufacturing business from its semiconductor design and products business.",
+                    "copyright": "Philip Cheung for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/intel-dilemma-cfjk/intel-dilemma-cfjk-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "An Intel chip-making site in Chandler, Ariz. The company is looking into splitting its manufacturing business from its semiconductor design and products business.",
+                    "copyright": "Philip Cheung for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/intel-dilemma-cfjk/intel-dilemma-cfjk-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "An Intel chip-making site in Chandler, Ariz. The company is looking into splitting its manufacturing business from its semiconductor design and products business.",
+                    "copyright": "Philip Cheung for The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "arts",
+            "subsection": "music",
+            "title": "A Night at the Donald J. Trump Center for the Performing Arts",
+            "abstract": "It’s still called the Kennedy Center. But after President Trump’s takeover, drag performers protested outside while audience members inside worried about what might be in store.",
+            "url": "https://www.nytimes.com/2025/02/14/arts/music/kennedy-center-donald-trump.html",
+            "uri": "nyt://article/eb2cf90e-36e2-5745-b7bb-167425f4299e",
+            "byline": "By Shawn McCreesh",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T17:52:22-05:00",
+            "created_date": "2025-02-14T17:46:50-05:00",
+            "published_date": "2025-02-14T17:46:50-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "United States Politics and Government",
+                "Appointments and Executive Changes",
+                "Culture (Arts)",
+                "Presidential Transition (US)"
+            ],
+            "org_facet": [
+                "American Ballet Theater",
+                "Kennedy, John F, Center for the Performing Arts"
+            ],
+            "per_facet": [
+                "Bell, W Kamau",
+                "Grenell, Richard",
+                "Trump, Donald J"
+            ],
+            "geo_facet": [],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14kennedy-center-scene-1-zmgw/14kennedy-center-scene-1-zmgw-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1358,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Patrons said that they were not sure what to expect now that President Trump has taken control of the Kennedy Center and made himself chairman. ",
+                    "copyright": "Andrew Caballero-Reynolds/Agence France-Presse — Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14kennedy-center-scene-1-zmgw/14kennedy-center-scene-1-zmgw-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Patrons said that they were not sure what to expect now that President Trump has taken control of the Kennedy Center and made himself chairman. ",
+                    "copyright": "Andrew Caballero-Reynolds/Agence France-Presse — Getty Images"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14kennedy-center-scene-1-zmgw/14kennedy-center-scene-1-zmgw-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Patrons said that they were not sure what to expect now that President Trump has taken control of the Kennedy Center and made himself chairman. ",
+                    "copyright": "Andrew Caballero-Reynolds/Agence France-Presse — Getty Images"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "weather",
+            "subsection": "",
+            "title": "The Sierra Nevada Just Had an ‘Epic Snow Day’",
+            "abstract": "The mountain range straddling California and Nevada has had mostly warm storms this winter. Finally, a cold one has piled up multiple feet of snow.",
+            "url": "https://www.nytimes.com/2025/02/14/weather/sierra-nevada-snow.html",
+            "uri": "nyt://article/b16c67b2-79d4-5747-b8c5-4558aadd9a3d",
+            "byline": "By Amy Graff",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T21:59:02-05:00",
+            "created_date": "2025-02-14T17:36:40-05:00",
+            "published_date": "2025-02-14T17:36:40-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Snow and Snowstorms",
+                "Weather",
+                "Presidents' Day",
+                "Winter (Season)",
+                "Avalanches",
+                "Skiing"
+            ],
+            "org_facet": [
+                "Palisades Tahoe"
+            ],
+            "per_facet": [],
+            "geo_facet": [
+                "California",
+                "Lake Tahoe (Nev)",
+                "Sierra Nevada Region (US)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14wea-sierra-snow-02-gqbv/14wea-sierra-snow-02-gqbv-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Snow and wind hammered the Sierra on Thursday, creating huge delays on highways with cars spinning out and chain control enforced.",
+                    "copyright": "Brooke Hess-Homeier/Associated Press"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14wea-sierra-snow-02-gqbv/14wea-sierra-snow-02-gqbv-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Snow and wind hammered the Sierra on Thursday, creating huge delays on highways with cars spinning out and chain control enforced.",
+                    "copyright": "Brooke Hess-Homeier/Associated Press"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14wea-sierra-snow-02-gqbv/14wea-sierra-snow-02-gqbv-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Snow and wind hammered the Sierra on Thursday, creating huge delays on highways with cars spinning out and chain control enforced.",
+                    "copyright": "Brooke Hess-Homeier/Associated Press"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "us",
+            "subsection": "",
+            "title": "A Plunge Into the Pacific on a Day of Mudslides",
+            "abstract": "Southern California took stock on Friday of the damage from an intense bout of rain. Among the most dramatic scenes: a Fire Department vehicle that was swept to the sea.",
+            "url": "https://www.nytimes.com/2025/02/14/us/storm-la-mudslides-flood-rain.html",
+            "uri": "nyt://article/54f1e677-0969-50f7-943e-58780a448766",
+            "byline": "By Jesus Jiménez",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T21:55:02-05:00",
+            "created_date": "2025-02-14T18:06:01-05:00",
+            "published_date": "2025-02-14T18:06:01-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Southern California Wildfires (Jan 2025)",
+                "Landslides and Mudslides",
+                "Weather",
+                "Floods"
+            ],
+            "org_facet": [
+                "Fire Department (Los Angeles)"
+            ],
+            "per_facet": [],
+            "geo_facet": [
+                "Los Angeles County (Calif)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14nat-ca-storm-pthj/14nat-ca-storm-pthj-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1366,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "A vehicle was swept up in a debris flow on Thursday in Malibu, Calif. and carried into the Pacific Ocean. ",
+                    "copyright": "Daniel Cole/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14nat-ca-storm-pthj/14nat-ca-storm-pthj-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "A vehicle was swept up in a debris flow on Thursday in Malibu, Calif. and carried into the Pacific Ocean. ",
+                    "copyright": "Daniel Cole/Reuters"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14nat-ca-storm-pthj/14nat-ca-storm-pthj-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "A vehicle was swept up in a debris flow on Thursday in Malibu, Calif. and carried into the Pacific Ocean. ",
+                    "copyright": "Daniel Cole/Reuters"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "realestate",
+            "subsection": "",
+            "title": "California Bill Would Force Insurers to Pay Full Coverage Without Requiring Itemization",
+            "abstract": "A proposed new law would release homeowners from the onerous process of listing every object lost in a destroyed home.",
+            "url": "https://www.nytimes.com/2025/02/14/realestate/la-fire-home-insurance-legislation.html",
+            "uri": "nyt://article/d868e5a0-2d44-522b-b7bd-1b40e0d8e441",
+            "byline": "By Rukmini Callimachi",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T19:48:51-05:00",
+            "created_date": "2025-02-14T19:48:51-05:00",
+            "published_date": "2025-02-14T19:48:51-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Real Estate and Housing (Residential)",
+                "Southern California Wildfires (Jan 2025)",
+                "Homeowners Insurance",
+                "Wildfires",
+                "Law and Legislation",
+                "Insurance",
+                "Consumer Protection"
+            ],
+            "org_facet": [],
+            "per_facet": [],
+            "geo_facet": [
+                "California",
+                "Altadena (Calif)",
+                "Pacific Palisades (Calif)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14lafire-listbill-kmcb/14lafire-listbill-kmcb-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1536,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "The historic fires that ripped through communities like Altadena, seen here, are forcing an unprecedented number of families to wrangle with insurance companies.",
+                    "copyright": "Philip Cheung for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14lafire-listbill-kmcb/14lafire-listbill-kmcb-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "The historic fires that ripped through communities like Altadena, seen here, are forcing an unprecedented number of families to wrangle with insurance companies.",
+                    "copyright": "Philip Cheung for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14lafire-listbill-kmcb/14lafire-listbill-kmcb-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "The historic fires that ripped through communities like Altadena, seen here, are forcing an unprecedented number of families to wrangle with insurance companies.",
+                    "copyright": "Philip Cheung for The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "opinion",
+            "subsection": "",
+            "title": "Hagan Scotten, Emil Bove and the Collective Punishment Test",
+            "abstract": "How Hagan Scotten, Emil Bove and the prosecutors who filed motions in the Eric Adams case demonstrate the tool of collective punishment.",
+            "url": "https://www.nytimes.com/live/2025/02/12/opinion/thepoint/emil-bove-hagan-scotten-eric-adams",
+            "uri": "nyt://article/6fdd2d58-1ae2-51c4-9def-0600327f3b0a",
+            "byline": "By M. Gessen",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T20:47:23-05:00",
+            "created_date": "2025-02-14T20:07:07-05:00",
+            "published_date": "2025-02-14T20:07:07-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [],
+            "org_facet": [
+                "Justice Department"
+            ],
+            "per_facet": [
+                "Bove, Emil",
+                "Scotten, Hagan",
+                "Adams, Eric L"
+            ],
+            "geo_facet": [],
+            "multimedia": null,
+            "short_url": ""
+        },
+        {
+            "section": "opinion",
+            "subsection": "",
+            "title": "What a School Performance Shows Us About Japanese Education",
+            "abstract": "A look into the Japanese educational system’s delicate balancing of teamwork, discipline and personal growth.",
+            "url": "https://www.nytimes.com/2024/11/18/opinion/japan-education-childhood.html",
+            "uri": "nyt://article/b795c525-d4e0-5447-85de-ef5e7b63088b",
+            "byline": "By Ema Ryan Yamazaki",
+            "item_type": "Article",
+            "updated_date": "2025-01-23T09:06:03-05:00",
+            "created_date": "2024-11-18T19:00:06-05:00",
+            "published_date": "2024-11-18T19:00:06-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Documentary Films and Programs",
+                "Children and Childhood",
+                "Education (K-12)",
+                "Symphony No 9, Beethoven (Musical Work)"
+            ],
+            "org_facet": [],
+            "per_facet": [],
+            "geo_facet": [
+                "Tokyo (Japan)",
+                "Japan"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2024/08/07/opinion/opdoc-japan-edu/opdoc-japan-edu-superJumbo.png",
+                    "format": "Super Jumbo",
+                    "height": 1225,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": ""
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2024/08/07/opinion/opdoc-japan-edu/opdoc-japan-edu-threeByTwoSmallAt2X.png",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": ""
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2024/08/07/opinion/opdoc-japan-edu/opdoc-japan-edu-thumbLarge.png",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": ""
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "us",
+            "subsection": "politics",
+            "title": "Army Helicopter Might Have Missed Critical Instruction Before Midair Crash",
+            "abstract": "Investigators said that an air traffic controller had instructed the Black Hawk crew to pass behind a nearby passenger jet, but that information might have got lost.",
+            "url": "https://www.nytimes.com/2025/02/14/us/politics/ntsb-potomac-crash.html",
+            "uri": "nyt://article/f6aea9a2-eff0-5613-8833-02ea6f8f75f0",
+            "byline": "By Mark Walker",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T22:35:16-05:00",
+            "created_date": "2025-02-14T19:16:06-05:00",
+            "published_date": "2025-02-14T19:16:06-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Airlines and Airplanes",
+                "Aviation Accidents, Safety and Disasters",
+                "Air Traffic Control"
+            ],
+            "org_facet": [
+                "National Transportation Safety Board"
+            ],
+            "per_facet": [
+                "Homendy, Jennifer"
+            ],
+            "geo_facet": [
+                "Washington (DC)",
+                "Potomac River"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-reagan-crash-photo-phzk/14dc-reagan-crash-photo-phzk-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 2048,
+                    "width": 1639,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Wreckage from the crash of the American Airlines jet and the Army Black Hawk helicopter in the Potomac River in January.",
+                    "copyright": "Kenny Holston/The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-reagan-crash-photo-phzk/14dc-reagan-crash-photo-phzk-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Wreckage from the crash of the American Airlines jet and the Army Black Hawk helicopter in the Potomac River in January.",
+                    "copyright": "Kenny Holston/The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/14dc-reagan-crash-photo-phzk/14dc-reagan-crash-photo-phzk-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Wreckage from the crash of the American Airlines jet and the Army Black Hawk helicopter in the Potomac River in January.",
+                    "copyright": "Kenny Holston/The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "nyregion",
+            "subsection": "",
+            "title": "Protesters Rally Against Deletion of ‘Transgender’ on Stonewall Website",
+            "abstract": "Hundreds of people gathered at the Greenwich Village site to condemn what they saw as a chilling strike against the symbolic heart of the gay rights movement.",
+            "url": "https://www.nytimes.com/2025/02/14/nyregion/stonewall-monument-transgender-rally.html",
+            "uri": "nyt://article/048c6a4f-35a2-54b7-8c8a-9245427b72c9",
+            "byline": "By Liam Stack and Nell Gallogly",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T18:57:52-05:00",
+            "created_date": "2025-02-14T18:57:52-05:00",
+            "published_date": "2025-02-14T18:57:52-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Homosexuality and Bisexuality",
+                "United States Politics and Government",
+                "Demonstrations, Protests and Riots",
+                "Parks and Other Recreation Areas",
+                "Transgender",
+                "National Parks, Monuments and Seashores",
+                "Stonewall Riots (1969)"
+            ],
+            "org_facet": [
+                "Interior Department",
+                "National Park Service",
+                "Stonewall Inn (Manhattan, NY, Bar)",
+                "Stonewall National Monument (Manhattan, NY)"
+            ],
+            "per_facet": [
+                "Bottcher, Erik (1980- )",
+                "Johnson, Marsha P (1945-92)",
+                "Obama, Barack",
+                "Rivera, Sylvia R (1951-2002)",
+                "Trump, Donald J"
+            ],
+            "geo_facet": [
+                "Greenwich Village (Manhattan, NY)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/STONEWALL-03-mpzg/STONEWALL-03-mpzg-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Jay Walker, center, an organizer of a protest at the Stonewall National Monument site, said he wasn’t sure how long a transgender flag would continue to fly there.",
+                    "copyright": "Brittainy Newman for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/STONEWALL-03-mpzg/STONEWALL-03-mpzg-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Jay Walker, center, an organizer of a protest at the Stonewall National Monument site, said he wasn’t sure how long a transgender flag would continue to fly there.",
+                    "copyright": "Brittainy Newman for The New York Times"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/multimedia/STONEWALL-03-mpzg/STONEWALL-03-mpzg-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Jay Walker, center, an organizer of a protest at the Stonewall National Monument site, said he wasn’t sure how long a transgender flag would continue to fly there.",
+                    "copyright": "Brittainy Newman for The New York Times"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "science",
+            "subsection": "",
+            "title": "Eleanor Maguire, Memory Expert Who Studied London Cabbies, Dies at 54",
+            "abstract": "By watching the brain process information, she discovered that a specific region plays a key role in spatial navigation — and that it can be strengthened like a muscle.",
+            "url": "https://www.nytimes.com/2025/02/14/science/eleanor-maguire-dead.html",
+            "uri": "nyt://article/8961dbfe-9bae-5d2f-b8e0-0d7e5d3460dd",
+            "byline": "By Michael S. Rosenwald",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T16:54:12-05:00",
+            "created_date": "2025-02-14T16:54:12-05:00",
+            "published_date": "2025-02-14T16:54:12-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Deaths (Obituaries)",
+                "Memory",
+                "Brain",
+                "Research",
+                "Magnetic Resonance Imagers",
+                "Taxicabs and Taxicab Drivers"
+            ],
+            "org_facet": [
+                "University College London"
+            ],
+            "per_facet": [
+                "Maguire, Eleanor (1970-2025)"
+            ],
+            "geo_facet": [
+                "London (England)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/15/multimedia/13maguire-01-gfcb-print1/13maguire-01-gfcb-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 2048,
+                    "width": 1736,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Eleanor Maguire in an undated photo. “She changed our understanding of memory,” said Chris Frith, an emeritus professor of neuropsychology at University College London. ",
+                    "copyright": "UCL Queen Square Institute of Neurology"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/15/multimedia/13maguire-01-gfcb-print1/13maguire-01-gfcb-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Eleanor Maguire in an undated photo. “She changed our understanding of memory,” said Chris Frith, an emeritus professor of neuropsychology at University College London. ",
+                    "copyright": "UCL Queen Square Institute of Neurology"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/15/multimedia/13maguire-01-gfcb-print1/13maguire-01-gfcb-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "Eleanor Maguire in an undated photo. “She changed our understanding of memory,” said Chris Frith, an emeritus professor of neuropsychology at University College London. ",
+                    "copyright": "UCL Queen Square Institute of Neurology"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "world",
+            "subsection": "americas",
+            "title": "Rafter Is Briefly ‘Swallowed’ by Whale in Chile, as His Father Films",
+            "abstract": "Paddling in the Strait of Magellan, Adrián Simancas was caught in a humpback’s lunge. “I realized that I was in something’s mouth and I had been eaten,” he said.",
+            "url": "https://www.nytimes.com/2025/02/14/world/americas/whale-swallowed-man-chile.html",
+            "uri": "nyt://article/3fa03e6a-e484-5eb4-aab6-02fe01b547b3",
+            "byline": "By John Bartlett and Alan Yuhas",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T22:00:35-05:00",
+            "created_date": "2025-02-14T10:19:26-05:00",
+            "published_date": "2025-02-14T10:19:26-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Whales and Whaling",
+                "Maritime Accidents and Safety",
+                "Fish and Other Marine Life",
+                "Wilderness Areas",
+                "Oceans and Seas"
+            ],
+            "org_facet": [],
+            "per_facet": [],
+            "geo_facet": [
+                "Patagonia (Chile)",
+                "Chile"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/world/americas/Chile_Kayaking_Whale_14758/Chile_Kayaking_Whale_14758-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1100,
+                    "width": 1650,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Dell Simancas, via Associated Press"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/world/americas/Chile_Kayaking_Whale_14758/Chile_Kayaking_Whale_14758-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Dell Simancas, via Associated Press"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/14/world/americas/Chile_Kayaking_Whale_14758/Chile_Kayaking_Whale_14758-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Dell Simancas, via Associated Press"
+                }
+            ],
+            "short_url": ""
+        },
+        {
+            "section": "t-magazine",
+            "subsection": "",
+            "title": "Inside Fashion’s Mysterious Silly Hat Festival",
+            "abstract": "How a tradition that started off as a way to find a partner became a day for the industry to celebrate itself.",
+            "url": "https://www.nytimes.com/2025/02/13/t-magazine/catherinette-nicholas-fashion-hats.html",
+            "uri": "nyt://article/0d03de7d-0923-5faa-b5d8-3cd5eff63ece",
+            "byline": "By Jessica Testa",
+            "item_type": "Article",
+            "updated_date": "2025-02-14T11:02:35-05:00",
+            "created_date": "2025-02-13T05:03:12-05:00",
+            "published_date": "2025-02-13T05:03:12-05:00",
+            "material_type_facet": "",
+            "kicker": "",
+            "des_facet": [
+                "Fashion and Apparel",
+                "Hats and Caps",
+                "Parties (Social)",
+                "Single Persons",
+                "Luxury Goods and Services"
+            ],
+            "org_facet": [
+                "Balenciaga (Fashion Label)",
+                "Christian Dior SA",
+                "Schiaparelli, Elsa, SAS"
+            ],
+            "per_facet": [
+                "Jones, Stephen (1957- )",
+                "Gvasalia, Demna"
+            ],
+            "geo_facet": [
+                "Paris (France)"
+            ],
+            "multimedia": [
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/13/t-magazine/13tmag-catherinettes-slide-NPX7-copy/13tmag-catherinettes-slide-NPX7-copy-superJumbo.jpg",
+                    "format": "Super Jumbo",
+                    "height": 1365,
+                    "width": 2048,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Thibault Montamat"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/13/t-magazine/13tmag-catherinettes-slide-NPX7-copy/13tmag-catherinettes-slide-NPX7-copy-threeByTwoSmallAt2X.jpg",
+                    "format": "threeByTwoSmallAt2X",
+                    "height": 400,
+                    "width": 600,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Thibault Montamat"
+                },
+                {
+                    "url": "https://static01.nyt.com/images/2025/02/13/t-magazine/13tmag-catherinettes-slide-NPX7-copy/13tmag-catherinettes-slide-NPX7-copy-thumbLarge.jpg",
+                    "format": "Large Thumbnail",
+                    "height": 150,
+                    "width": 150,
+                    "type": "image",
+                    "subtype": "photo",
+                    "caption": "",
+                    "copyright": "Thibault Montamat"
+                }
+            ],
+            "short_url": ""
+        }
+    ]
+}
