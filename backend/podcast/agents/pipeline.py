@@ -14,10 +14,9 @@ from typing import List, Dict
 import os
 import re
 import json
+import uuid
+from datetime import datetime
 from dotenv import load_dotenv
-
-from backend.podcast.ml.inference.rl_bandit import HybridLinUCBModel
-from backend.podcast.ml.retrieval.merger import Article, Merger
 
 from backend.podcast.AppData import AppData
 # project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -29,6 +28,57 @@ from backend.podcast.AppData import AppData
 
 
 load_dotenv()
+
+
+class SimpleArticle:
+    """Simple article wrapper compatible with Article interface for Perplexity-sourced articles"""
+    def __init__(self, title: str, content: str = "", abstract: str = ""):
+        self.id = str(uuid.uuid4())
+        self.title = title
+        self.content = content if content else abstract
+        self.abstract = abstract if abstract else title
+        self.section = "General"
+        self.lead_paragraph = abstract if abstract else title
+        self.snippet = abstract if abstract else title
+        self.keywords = []
+        self.url = ""
+        self.date = datetime.now().isoformat()
+        self.all_data = {
+            "headline": {"main": title},
+            "lead_paragraph": self.lead_paragraph,
+            "abstract": self.abstract,
+            "snippet": self.snippet,
+            "keywords": [],
+            "web_url": "",
+            "section_name": self.section,
+            "pub_date": self.date,
+            "document_type": "article"
+        }
+        self.interest_score = 0
+        self.embedding_3d = []
+        self._id = None
+    
+    def __hash__(self):
+        return hash(self.id)
+    
+    def __eq__(self, other):
+        return self.id == other.id
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "content": self.content,
+            "abstract": self.abstract,
+            "section": self.section,
+            "lead_paragraph": self.lead_paragraph,
+            "snippet": self.snippet,
+            "keywords": self.keywords,
+            "url": self.url,
+            "date": self.date,
+            "all_data": self.all_data,
+            "interest_score": self.interest_score,
+        }
 
 
 class NewsPodcastPipeline:
@@ -44,22 +94,18 @@ class NewsPodcastPipeline:
         self.drafter = StoryDrafterAgent(openai_api_key)
         self.stories = []
 
-        self.articles: list[Article] = Merger(db_path = "backend/podcast/ml/retrieval/db/").merge()
-        self.rl_agent = HybridLinUCBModel(articles=self.articles, alpha=1.0, learning_rate=1.0, stabilization=0.001, feedback_exponent=2.0)
-
-        self.script_generators = [
-
-        ]
+        self.script_generators = []
 
     def parse_topic_classifier(self, response: str) -> List[str]:
         topics = re.findall(r"<TOPIC>(.*?)</TOPIC>", response, re.DOTALL)
         return topics
-    def parse_scraper_response(self, response: str) -> List[str]:
+    def parse_scraper_response(self, response: str) -> str:
         # Parse the response into structured format
         headlines = re.findall(r"<HEADLINE>(.*?)</HEADLINE>", response, re.DOTALL)
         list_of_headlines = [headline.strip() for headline in headlines]
-        print(list_of_headlines)
-        return list_of_headlines[0]
+        if list_of_headlines:
+            return list_of_headlines[0]
+        return ""
     def parse_research_stories(self, response: List[Dict]) -> List[Dict]:
         result = []
         for story in response:
@@ -68,20 +114,55 @@ class NewsPodcastPipeline:
             parsed_story["content"] = story["choices"][0]["message"]["content"]
             result.append(parsed_story)
         return result
+    
+    def _get_articles_from_perplexity(self, num_articles: int) -> List[SimpleArticle]:
+        """Get articles using Perplexity scraper instead of ML model"""
+        articles = []
+        categories = ["Technology", "Science", "Business", "World News", "Politics"]
+        
+        print(f"Fetching {num_articles} articles from Perplexity...")
+        
+        for i in range(num_articles):
+            # Use a different category for variety, cycling through categories
+            category = categories[i % len(categories)]
+            
+            try:
+                # Get headline from Perplexity
+                scraper_result = self.scraper.get_top_headlines(category)
+                if not scraper_result or not scraper_result.get("content"):
+                    print(f"Failed to get headline for category {category}, trying next...")
+                    continue
+                
+                # Parse headline
+                headline = self.parse_scraper_response(scraper_result["content"])
+                if not headline:
+                    print(f"Failed to parse headline, trying next...")
+                    continue
+                
+                # Create article with headline as initial content
+                article = SimpleArticle(title=headline, abstract=headline)
+                articles.append(article)
+                print(f"Fetched article {i+1}/{num_articles}: {headline[:50]}...")
+                
+            except Exception as e:
+                print(f"Error fetching article {i+1}: {e}")
+                continue
+        
+        # If we didn't get enough articles, fill with generic ones
+        while len(articles) < num_articles:
+            article = SimpleArticle(
+                title=f"Top News Story {len(articles) + 1}",
+                abstract="Current news story from Perplexity"
+            )
+            articles.append(article)
+        
+        return articles[:num_articles]
+    
     def generate_podcast(self) -> str:
-        # Execute the pipeline
-        # print("Scraping news...")
-        # categories = ["Urban Planning", "Beekeeping", "Astrobiology", "Minimalist Living", "Cryptography", "Sumo Wrestling", "Mushroom Foraging", "Antique Restoration"]
-        # topic_classifier  = self.interest_classifier.interest_classify(categories)
-        # topics = self.parse_topic_classifier(topic_classifier)
-        # topics = topics[0:min(len(topics), 3)]
         script = ''
-        # news_item = self.scraper.get_top_headlines(topic)
-        # print("Generated News Item:", news_item)
-        # news_item = self.parse_scraper_response(news_item['content'])
         num_articles = 2
-        print("Generating news articles...")
-        news_articles: list[Article] = self.rl_agent.return_next_articles(num_articles=num_articles)
+        print("Generating news articles using Perplexity...")
+        news_articles: List[SimpleArticle] = self._get_articles_from_perplexity(num_articles=num_articles)
 
         AppData.data["Articles"] = [{
             "article_data": article,

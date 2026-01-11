@@ -15,7 +15,6 @@ import json
 from flask_socketio import SocketIO, emit
 
 from backend.podcast.AppData import AppData
-from backend.podcast.global_instances import rl_model, graph
 import whisper
 
 # Configure logging
@@ -229,42 +228,13 @@ def get_all_transcript_files():
 
 @app.route("/api/graph_init", methods=["GET"])
 def graph_init():
-    e = graph.generate_init_nodes()
-    print('embedding', e)
-    graph.update_interest_scores()
-
-    nodes = []
-    categories = []
-    for i in range(len(graph.nodes)):
-        nodes.append({'id': i, 'position': graph.nodes[i].embedding_3d, 'label': '', 'interest_score': 0})
-        if graph.nodes[i].section not in categories:
-            categories.append(graph.nodes[i].section)
-            nodes[i]['label'] = graph.nodes[i].section
-
-    print('nodes', nodes)
-    # Return JSON in a format convenient for your frontend
-    return jsonify({"nodes": nodes, "edges": []})
+    """ML graph feature has been removed. This endpoint returns an error."""
+    return jsonify({"error": "ML features including 3D graph visualization have been removed. The app now uses Perplexity scraping for article selection."}), 503
 
 @app.route("/api/graph_update/<x>/<y>/<z>", methods=["GET"])
 def graph_update(x, y, z):
-    graph.update_rl_model(float(x), float(y), float(z))
-    print('updated rl')
-    graph.update_interest_scores()
-    print('updated interest scores')
-    print(graph.nodes)
-
-    nodes = []
-    categories = []
-    for i in range(len(graph.nodes)):
-        nodes.append({'id': i, 'position': graph.nodes[i].embedding_3d, 'label': '', 'interest_score': graph.nodes[i].interest_score})
-        if graph.nodes[i].section not in categories:
-            categories.append(graph.nodes[i].section)
-            nodes[i]['label'] = graph.nodes[i].section
-    
-    print('nodes', nodes)
-    print('finished updating')
-    # Return JSON in a format convenient for your frontend
-    return jsonify({"nodes": nodes, "edges": []})
+    """ML graph feature has been removed. This endpoint returns an error."""
+    return jsonify({"error": "ML features including 3D graph visualization have been removed. The app now uses Perplexity scraping for article selection."}), 503
 
 
 @app.route("/interrupt", methods=["POST"])

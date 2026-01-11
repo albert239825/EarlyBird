@@ -1,11 +1,13 @@
 from langchain_community.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-from typing import Dict, List
+from typing import Dict, List, Any
 import os
 import time
 
-from backend.podcast.ml.retrieval.merger import Article
+# Article type - any object with title, abstract, content attributes (duck typing)
+# Compatible with both SimpleArticle and the old ML Article class
+Article = Any
 
 class PodcastScriptGenerator:
     def __init__(self, mistral_api_key: str):
