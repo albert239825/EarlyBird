@@ -11,13 +11,14 @@ if project_root not in sys.path:
 
 from backend.podcast.agents.audio.audio_generation import PodcastAudioGenerator
 from backend.podcast.agents.pipeline import NewsPodcastPipeline
-from backend.podcast.AppData import AppData
 
 import json
 
 load_dotenv()  # Load environment variables from .env file
 
 import logging
+
+load_dotenv()
 
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
@@ -96,9 +97,8 @@ class PodcastRunner:
             data = json.load(file)
 
         data["metadata"].append({
-            # "file_path": audio_path, 
             "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "stories": self.pipeline.stories
+            "podcast_dir": self.podcast_dir
         })
 
         with open(json_file_path, "w") as file:
@@ -106,7 +106,6 @@ class PodcastRunner:
         
         return {
             'transcript_path': transcript_path,
-            # 'audio_path': audio_path,
             'podcast_dir': self.podcast_dir
         }
     
@@ -118,6 +117,7 @@ class PodcastRunner:
         answer = self.pipeline.answer_question(question, index)
         print("Answer generated")
         return answer
+
 
     def generate_from_transcript(self, transcript_path: str):
         """Generate audio from an existing transcript file."""
@@ -148,8 +148,6 @@ class PodcastRunner:
             'audio_path': audio_path,
             'podcast_dir': self.podcast_dir
         }
-    
-
 
 if __name__ == "__main__":
     import sys
@@ -171,4 +169,3 @@ if __name__ == "__main__":
         print(f"Output directory: {result['podcast_dir']}")
         print(f"Transcript: {result['transcript_path']}")
         print(f"Audio: {result['audio_path']}")
-

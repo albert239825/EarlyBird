@@ -1,16 +1,8 @@
 from .scraper import NewsScraperAgent
 from .researcher import DeepResearchAgent
-from .story_drafter import StoryDrafterAgent
 from .script_generator import PodcastScriptGenerator
-from .interest_classifier import InterestClassifierAgent
 from .audio.audio_generation import PodcastAudioGenerator
-from langchain.agents import Tool, AgentExecutor, create_react_agent
-from langchain_community.chat_models import ChatOpenAI
-from langchain.tools import BaseTool
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
-from langchain.memory import ConversationBufferMemory
-from typing import List, Dict
+from typing import List
 import os
 import re
 import json
@@ -18,14 +10,7 @@ import uuid
 from datetime import datetime
 from dotenv import load_dotenv
 
-from backend.podcast.AppData import AppData
-# project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-# sys.path.insert(0, project_root)
-
-# from direct.inference.rl_bandit import HybridLinUCBModel
-# from direct.retrieval.merger import Article, Merger
-# from direct.inference.embed import Embedor
-
+from backend.podcast.AppData import data as app_data
 
 load_dotenv()
 
@@ -89,31 +74,15 @@ class NewsPodcastPipeline:
         mistral_api_key: str
     ):
         self.scraper = NewsScraperAgent(perplexity_api_key)
-        self.interest_classifier = InterestClassifierAgent(openai_api_key)
         self.researcher = DeepResearchAgent(perplexity_api_key)
-        self.drafter = StoryDrafterAgent(openai_api_key)
-        self.stories = []
-
         self.script_generators = []
 
-    def parse_topic_classifier(self, response: str) -> List[str]:
-        topics = re.findall(r"<TOPIC>(.*?)</TOPIC>", response, re.DOTALL)
-        return topics
     def parse_scraper_response(self, response: str) -> str:
-        # Parse the response into structured format
         headlines = re.findall(r"<HEADLINE>(.*?)</HEADLINE>", response, re.DOTALL)
         list_of_headlines = [headline.strip() for headline in headlines]
         if list_of_headlines:
             return list_of_headlines[0]
         return ""
-    def parse_research_stories(self, response: List[Dict]) -> List[Dict]:
-        result = []
-        for story in response:
-            parsed_story = {}
-            parsed_story["headline"] = story["headline"]
-            parsed_story["content"] = story["choices"][0]["message"]["content"]
-            result.append(parsed_story)
-        return result
     
     def _get_articles_from_perplexity(self, num_articles: int) -> List[SimpleArticle]:
         """Get articles using Perplexity scraper instead of ML model"""
@@ -123,23 +92,19 @@ class NewsPodcastPipeline:
         print(f"Fetching {num_articles} articles from Perplexity...")
         
         for i in range(num_articles):
-            # Use a different category for variety, cycling through categories
             category = categories[i % len(categories)]
             
             try:
-                # Get headline from Perplexity
                 scraper_result = self.scraper.get_top_headlines(category)
                 if not scraper_result or not scraper_result.get("content"):
                     print(f"Failed to get headline for category {category}, trying next...")
                     continue
                 
-                # Parse headline
                 headline = self.parse_scraper_response(scraper_result["content"])
                 if not headline:
                     print(f"Failed to parse headline, trying next...")
                     continue
                 
-                # Create article with headline as initial content
                 article = SimpleArticle(title=headline, abstract=headline)
                 articles.append(article)
                 print(f"Fetched article {i+1}/{num_articles}: {headline[:50]}...")
@@ -148,7 +113,6 @@ class NewsPodcastPipeline:
                 print(f"Error fetching article {i+1}: {e}")
                 continue
         
-        # If we didn't get enough articles, fill with generic ones
         while len(articles) < num_articles:
             article = SimpleArticle(
                 title=f"Top News Story {len(articles) + 1}",
@@ -164,66 +128,49 @@ class NewsPodcastPipeline:
         print("Generating news articles using Perplexity...")
         news_articles: List[SimpleArticle] = self._get_articles_from_perplexity(num_articles=num_articles)
 
-        AppData.data["Articles"] = [{
+        app_data["Articles"] = [{
             "article_data": article,
             "total_articles": num_articles
             }
             for article in news_articles
         ]
 
-        AppData.data["current_article"] = 0
+        app_data["current_article"] = 0
 
         news_item_index = 0
         for news_item in news_articles:
             print("Conducting deep research...")
             researched_stories = self.researcher.research_stories(news_item.title, news_item.abstract)
             research_content = researched_stories[0]["research"]["choices"][0]["message"]["content"]
-            AppData.data["Articles"][news_item_index]["research"] = research_content
-            AppData.data["Articles"][news_item_index]["script"] = {
+            app_data["Articles"][news_item_index]["research"] = research_content
+            app_data["Articles"][news_item_index]["script"] = {
                 "to_generate_index": 0,
-                "main_remaining": 5, # 2 for each + ENDING,
+                "main_remaining": 5,
                 "is_host": True,
                 "texts": []
             }
 
-
-            # print("Generated Research:")
-            
-            # print(f"Drafting story for {news_item.section}...")
-            # drafted_stories = self.drafter.draft_stories(researched_stories)
-            # self.stories.append({"story": drafted_stories, "topic": news_item.section})
-            # print("Stories:", self.stories)
-
             print(f"Generating script for {news_item.title}...")
 
-            mistral_api_key=os.getenv("MISTRAL_API_KEY")
+            mistral_api_key = os.getenv("MISTRAL_API_KEY")
             script_generator = PodcastScriptGenerator(mistral_api_key)
             self.script_generators.append(script_generator)
             first_script = script_generator.generate_next_script(True, False, news_item, research_content, 0, include_first_hello=(news_item_index == 0))
-            AppData.data["Articles"][news_item_index]["script"]["texts"].append({
+            app_data["Articles"][news_item_index]["script"]["texts"].append({
                 "role": "host",
                 "content": first_script
             })
-            AppData.data["Articles"][news_item_index]["script"]["to_generate_index"] = 1
-            AppData.data["Articles"][news_item_index]["script"]["main_remaining"] -= 1
-            AppData.data["Articles"][news_item_index]["script"]["is_host"] = False
+            app_data["Articles"][news_item_index]["script"]["to_generate_index"] = 1
+            app_data["Articles"][news_item_index]["script"]["main_remaining"] -= 1
+            app_data["Articles"][news_item_index]["script"]["is_host"] = False
 
-            AppData.data["emit_articles"]()
-
-
-            # story = self.script_generator.generate_script(news_item, research_content)     
-            # script += story   
-
-            # print(story)
+            app_data["emit_articles"]()
             news_item_index += 1
             
         return script
-        # print("Generated Podcast Scripts:", result)
-        # return result
-    
    
     def generate_next_part_podcast(self, index: int) -> str:
-        article_obj = AppData.data["Articles"][index]
+        article_obj = app_data["Articles"][index]
         article_data = article_obj["article_data"]
         research_data = article_obj["research"]
         is_host = article_obj["script"]["is_host"]
@@ -231,32 +178,28 @@ class NewsPodcastPipeline:
         remaining = article_obj["script"]["main_remaining"]
         
         first_script = self.script_generators[index].generate_next_script(is_host, remaining==1, article_data, research_data, to_generate_index, False)
-        AppData.data["Articles"][index]["script"]["texts"].append({
+        app_data["Articles"][index]["script"]["texts"].append({
             "role": "host" if is_host else "expert",
             "content": first_script
         })
 
-        AppData.data["Articles"][index]["script"]["to_generate_index"] += 1
-        AppData.data["Articles"][index]["script"]["main_remaining"] -= 1
-        AppData.data["Articles"][index]["script"]["is_host"] = not is_host
+        app_data["Articles"][index]["script"]["to_generate_index"] += 1
+        app_data["Articles"][index]["script"]["main_remaining"] -= 1
+        app_data["Articles"][index]["script"]["is_host"] = not is_host
 
-        AppData.data["emit_articles"]()
+        app_data["emit_articles"]()
 
         return first_script
 
     def answer_question(self, question: str, index: int) -> str:
-        article_obj = AppData.data["Articles"][index]
+        article_obj = app_data["Articles"][index]
         article_data = article_obj["article_data"]
         research_data = article_obj["research"]
 
         response = self.script_generators[index].answer_question(article_data, research_data, question)
-
         return response
 
-
-    # filepath- current audio file playing
     def user_ask_expert(self, question: str, filepath: str) -> str:
-        # Use absolute path matching the one in podcast.py
         self.project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         json_file_path = os.path.join(
             self.project_root,
@@ -266,53 +209,33 @@ class NewsPodcastPipeline:
             'podcast_metadata.json'
         )
         
-        # Debug prints
         print(f"Looking for metadata file at: {json_file_path}")
         print(f"Searching for filepath: {filepath}")
         
         with open(json_file_path, "r") as file:
             data = json.load(file)
-            # Debug print
             print("Available filepaths in metadata:", [p.get("file_path") for p in data["metadata"]])
 
         i = int(filepath[filepath.rfind('.mp3') - 1])
-        stories = None  # Initialize stories variable
+        stories = None
         for podcast in data["metadata"]:
             if filepath in podcast["file_path"]:
                 stories = podcast["stories"]
                 break
                 
-        if stories is None:  # Add error handling
+        if stories is None:
             raise ValueError(f"No podcast found with filepath: {filepath}")
 
-        mistral_api_key=os.getenv("MISTRAL_API_KEY")
+        mistral_api_key = os.getenv("MISTRAL_API_KEY")
         script_generator = PodcastScriptGenerator(mistral_api_key)
         script_generator.chat_history.append(f"<HOST{i}>{question}</HOST{i}>")
-        ans = script_generator.generate_response(script_generator.expert_chain, stories[i // 2]["story"][0]['draft'])
+        
+        story_draft = stories[i // 2]["story"][0]['draft']
+        article = SimpleArticle(title="Question", abstract=story_draft, content=story_draft)
+        ans = script_generator.generate_response(script_generator.expert_chain, article, question, story_draft, question=True)
 
-        # Get the directory from the input filepath
         output_dir = os.path.dirname(filepath)
         audio_generator = PodcastAudioGenerator(output_dir=output_dir)
         interrupt_path = os.path.join(output_dir, f"podcast_interrupt_{i}.mp3")
         audio_generator.generate_interrupt_response(ans, interrupt_path)
         return interrupt_path
-
-
-
-if __name__ == "__main__":
-    # Initialize the pipeline
-    print(os.getenv("OPENAI_API_KEY"))
-    pipeline = NewsPodcastPipeline(
-        perplexity_api_key=os.getenv("PERPLEXITY_API_KEY"),
-        openai_api_key=os.getenv("OPENAI_API_KEY"),
-        mistral_api_key=os.getenv("MISTRAL_API_KEY")
-    )
-
-    # Test user_ask_expert
-    filepath = "/Users/albert/Documents/coding_projects/EarlyBird/backend/podcast/finished_podcasts/podcast_20250216_001413_3b8ba9c7/interaction_1.mp3"  # Updated filepath
-    question = "What are the key points about this topic?"
-    result = pipeline.user_ask_expert(question, filepath)
-    print(f"Generated interrupt file: {result}")
-
-    # Test generate_podcast
-    # pipeline.generate_podcast()
