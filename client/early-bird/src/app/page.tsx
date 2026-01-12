@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,7 +12,6 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import AudioPlayer from "@/components/AudioPlayer"
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000"
 
@@ -48,6 +48,7 @@ function Spinner() {
 }
 
 export default function Home() {
+  const router = useRouter()
   const [numStories, setNumStories] = useState<number>(3)
   const [categories, setCategories] = useState<Array<string | null>>(Array(3).fill(null))
   const [submitting, setSubmitting] = useState(false)
@@ -358,12 +359,18 @@ export default function Home() {
               </Accordion>
             </div>
 
-            {status.status === "complete" && (
+            {podcastId && (
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground">
                   Generated: <span className="font-mono">{podcastId}</span>
                 </div>
-                <AudioPlayer podcastId={podcastId} />
+                <Button
+                  onClick={() => router.push(`/podcast-view/${podcastId}`)}
+                  disabled={status?.status !== "complete"}
+                  className="w-full h-11 px-8 rounded-md"
+                >
+                  {status?.status === "complete" ? "View Podcast" : "Generation in progress..."}
+                </Button>
               </div>
             )}
           </CardContent>
