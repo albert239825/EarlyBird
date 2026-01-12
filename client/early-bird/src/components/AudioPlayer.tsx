@@ -27,10 +27,13 @@ class SegmentPlayer {
   private accumulatedMs = 0
   private pendingSeekMs: number | null = null
   private debugLabel: string
+  private shouldResumeAfterLoad = false
+  private currentPlaybackRate = 1.0
 
   onTimeUpdate?: (ms: number) => void
   onSegmentChange?: (idx: number) => void
   onEndedAll?: () => void
+  onShouldResume?: () => boolean
 
   constructor(segments: Segment[], debugLabel: string) {
     this.segments = segments
@@ -95,9 +98,9 @@ class SegmentPlayer {
         this.onEndedAll?.()
         return
       }
+      // Check if we should resume playback based on React state (via callback)
+      this.shouldResumeAfterLoad = this.onShouldResume?.() ?? false
       this.loadIndex(this.currentIndex)
-      // NOTE: we intentionally do NOT auto-play here to keep playback user-gesture initiated.
-      // The UI click handler manages calling audio.play() directly.
       this.onSegmentChange?.(this.currentIndex)
     })
   }
@@ -138,7 +141,36 @@ class SegmentPlayer {
       this.pendingSeekMs = null
     }
 
-    this.audio.addEventListener("loadedmetadata", maybeSeek, { once: true })
+    const maybeResume = async () => {
+      if (this.shouldResumeAfterLoad) {
+        try {
+          await this.audio.play()
+        } catch (e) {
+          console.error(`[AudioPlayer:${this.debugLabel}] Failed to resume playback after load`, e)
+        }
+        this.shouldResumeAfterLoad = false
+      }
+    }
+
+    const restorePlaybackRate = () => {
+      // Restore playback rate after loading new segment
+      if (this.audio.playbackRate !== this.currentPlaybackRate) {
+        this.audio.playbackRate = this.currentPlaybackRate
+      }
+    }
+
+    this.audio.addEventListener("loadedmetadata", () => {
+      restorePlaybackRate()
+      maybeSeek()
+      // Try to resume after metadata loads, but also wait for canplay to ensure audio is ready
+      maybeResume().catch(() => {})
+    }, { once: true })
+
+    // Also try to resume on canplay event as a fallback (more reliable for playback)
+    this.audio.addEventListener("canplay", () => {
+      restorePlaybackRate()
+      maybeResume().catch(() => {})
+    }, { once: true })
   }
 
   async play(): Promise<void> {
@@ -149,6 +181,7 @@ class SegmentPlayer {
 
     try {
       await this.audio.play()
+      this.shouldResumeAfterLoad = false
     } catch (e) {
       console.error(`[AudioPlayer:${this.debugLabel}] audio.play() failed`, e, {
         src: this.audio.currentSrc || this.audio.src,
@@ -168,10 +201,11 @@ class SegmentPlayer {
   }
 
   setPlaybackRate(r: number) {
+    this.currentPlaybackRate = r
     this.audio.playbackRate = r
   }
 
-  seekTo(ms: number) {
+  seekTo(ms: number, shouldResume: boolean = false) {
     const clamped = Math.max(0, Math.min(this.getTotalMs(), ms))
     let acc = 0
     for (let i = 0; i < this.segments.length; i++) {
@@ -180,6 +214,8 @@ class SegmentPlayer {
         this.currentIndex = i
         this.accumulatedMs = acc
         this.pendingSeekMs = clamped
+        // Use the shouldResume parameter (from React state) instead of audio.paused
+        this.shouldResumeAfterLoad = shouldResume
         this.loadIndex(i)
         this.onSegmentChange?.(i)
         this.onTimeUpdate?.(clamped)
@@ -213,6 +249,11 @@ export default function AudioPlayer({ podcastId }: { podcastId: string }) {
   const analyserRef = useRef<AnalyserNode | null>(null)
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null)
 
+  const isPlayingRef = useRef(isPlaying)
+  useEffect(() => {
+    isPlayingRef.current = isPlaying
+  }, [isPlaying])
+
   useEffect(() => {
     let cancelled = false
     const run = async () => {
@@ -232,6 +273,8 @@ export default function AudioPlayer({ podcastId }: { podcastId: string }) {
       p.onTimeUpdate = (ms) => setCurrentMs(ms)
       p.onSegmentChange = (idx) => setCurrentSegIdx(idx)
       p.onEndedAll = () => setIsPlaying(false)
+      // Use ref to get current isPlaying value
+      p.onShouldResume = () => isPlayingRef.current
       setPlayer(p)
     }
     run().catch((e) => {
@@ -242,6 +285,13 @@ export default function AudioPlayer({ podcastId }: { podcastId: string }) {
       cancelled = true
     }
   }, [podcastId])
+
+  // Update callback when player is set
+  useEffect(() => {
+    if (player) {
+      player.onShouldResume = () => isPlayingRef.current
+    }
+  }, [player, isPlaying])
 
   const totalMs = player?.getTotalMs() ?? 0
   const progressPct = totalMs ? Math.max(0, Math.min(100, (currentMs / totalMs) * 100)) : 0
@@ -256,6 +306,18 @@ export default function AudioPlayer({ podcastId }: { podcastId: string }) {
     }
     return starts
   }, [manifest])
+
+  // Derive current segment index from currentMs to ensure it's always accurate
+  const computedCurrentSegIdx = useMemo(() => {
+    if (!manifest || segmentStarts.length === 0) return 0
+    // Find which segment contains currentMs
+    for (let i = segmentStarts.length - 1; i >= 0; i--) {
+      if (currentMs >= segmentStarts[i]) {
+        return i
+      }
+    }
+    return 0
+  }, [manifest, segmentStarts, currentMs])
 
   const ensureAudioGraph = () => {
     if (!player) return
@@ -379,7 +441,8 @@ export default function AudioPlayer({ podcastId }: { podcastId: string }) {
   const onSeek = (pct: number) => {
     if (!player) return
     const ms = Math.floor((pct / 100) * totalMs)
-    player.seekTo(ms)
+    // Pass isPlaying state so playback resumes if it was playing
+    player.seekTo(ms, isPlaying)
   }
 
   const onToggleMute = () => {
@@ -475,12 +538,16 @@ export default function AudioPlayer({ podcastId }: { podcastId: string }) {
         <CardContent>
           <div className="space-y-2 max-h-72 overflow-y-auto">
             {segments.map((seg, idx) => {
-              const isCurrent = idx === currentSegIdx
+              // Use computed segment index derived from currentMs for accurate highlighting
+              const isCurrent = idx === computedCurrentSegIdx
               const startMs = segmentStarts[idx] ?? 0
               return (
                 <button
                   key={seg.segment_id}
-                  onClick={() => player.seekTo(startMs)}
+                  onClick={() => {
+                    // Pass isPlaying state so playback resumes if it was playing
+                    player.seekTo(startMs, isPlaying)
+                  }}
                   className={[
                     "w-full text-left p-3 rounded-lg border transition-colors",
                     isCurrent ? "bg-primary text-primary-foreground border-primary" : "bg-card hover:bg-accent border-border",
