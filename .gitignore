@@ -58,7 +58,7 @@ ios/Pods/
 ios/build/
 
 #ignore the pocasts
-backend/podcast/finished_podcasts/
+backend/finished_podcasts/
 
 # Test output (for inspecting integration test artifacts)
 backend/tests/test_output/
