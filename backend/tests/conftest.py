@@ -53,3 +53,12 @@ def openai_api_key() -> str:
 def perplexity_api_key() -> str:
     return os.getenv("PERPLEXITY_API_KEY", "test_perplexity_key")
 
+
+@pytest.fixture
+def tmp_backend_root(tmp_path: Path) -> Path:
+    """
+    Temp backend_root for storage + route tests.
+    PodcastStorage(backend_root) writes under backend_root/finished_podcasts/.
+    """
+    return tmp_path / "backend_root"
+
