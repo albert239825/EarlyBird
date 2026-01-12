@@ -3,7 +3,6 @@ Podcast generation pipeline - orchestrates AI agents to create podcasts.
 """
 from backend.agents.scraper import NewsScraperAgent
 from backend.agents.researcher import DeepResearchAgent
-from backend.agents.script_generator import PodcastScriptGenerator
 from backend.agents.openai_script_writer import OpenAIScriptWriter
 from backend.audio.generator import PodcastAudioGenerator
 from backend.models.article import SimpleArticle

@@ -36,6 +36,9 @@ class Config:
     # Logging
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     
+    # Audio Generation
+    GENERATE_AUDIO = os.getenv("GENERATE_AUDIO", "true").lower() == "true"
+    
     @classmethod
     def validate(cls):
         """Validate that required environment variables are set"""
@@ -43,8 +46,11 @@ class Config:
             "PERPLEXITY_API_KEY",
             "OPENAI_API_KEY",
             "MISTRAL_API_KEY",
-            "ELEVENLABS_API_KEY"
         ]
+        # ELEVENLABS_API_KEY only required if audio generation is enabled
+        if cls.GENERATE_AUDIO:
+            required_keys.append("ELEVENLABS_API_KEY")
+        
         missing = [key for key in required_keys if not getattr(cls, key)]
         if missing:
             raise ValueError(f"Missing required environment variables: {', '.join(missing)}")

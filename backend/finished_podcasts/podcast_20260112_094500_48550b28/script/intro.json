@@ -1,0 +1,15 @@
+{
+  "story_index": -1,
+  "utterances": [
+    {
+      "utterance_id": "u0",
+      "speaker": "host",
+      "text": "Coming up: CES 2026 signals a pivot away from flashy gadgets and toward AI infrastructure and working robots. Then, a fusion milestone in China’s “artificial sun” that could help push reactors closer to practical clean energy. We’ll break down what changed—and what’s still hard."
+    },
+    {
+      "utterance_id": "u1",
+      "speaker": "expert",
+      "text": "I’m glad you’re covering both, because they share a theme: the tech world is moving from demos to deployment. Whether it’s robots in warehouses or denser plasmas in tokamaks, the question is what’s scalable and reliable. And what it takes to get from a breakthrough to something that runs every day."
+    }
+  ]
+}

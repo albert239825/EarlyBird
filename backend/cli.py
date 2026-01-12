@@ -24,7 +24,7 @@ def generate_podcast():
     
     result = service.generate_podcast(
         podcast_dir=podcast_dir,
-        num_articles=2,
+        num_articles=3,
         categories=["Technology", None, "Squash (Sport)"] 
     )
     
@@ -32,6 +32,12 @@ def generate_podcast():
     print(f"  Podcast ID: {result['podcast_id']}")
     print(f"  Output directory: {podcast_dir}")
     print(f"  Stories: {len(result.get('stories', []))}")
+    
+    if Config.GENERATE_AUDIO:
+        print(f"  Audio generation: ENABLED (segments generated)")
+    else:
+        print(f"  Audio generation: DISABLED (scripts only - set GENERATE_AUDIO=true in .env to enable)")
+    
     print(f"\n  Check outputs in: {podcast_dir}")
 
 

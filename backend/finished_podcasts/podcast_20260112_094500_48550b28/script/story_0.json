@@ -1,0 +1,45 @@
+{
+  "story_index": 0,
+  "utterances": [
+    {
+      "utterance_id": "u0",
+      "speaker": "host",
+      "text": "At CES 2026, the headline isn’t a new phone or TV. It’s “physical AI”—the chips, cloud systems, and robots meant to operate in the real world, not just on screens. The show floor is full of autonomous vehicle platforms and humanoid robots that companies say are already being deployed."
+    },
+    {
+      "utterance_id": "u1",
+      "speaker": "expert",
+      "text": "That’s the big shift: AI value is migrating from novelty consumer hardware to infrastructure and machines that do work. You’re seeing tighter integration between simulation, compute, and deployment, because real-world autonomy is expensive to train and risky to test. CES is reflecting where the money is going—into platforms and services, not one-off gadgets."
+    },
+    {
+      "utterance_id": "u2",
+      "speaker": "host",
+      "text": "On the autonomous vehicle side, companies are touting faster onboard compute and better coordination with the world around them. Tesla talked up a next-generation AI5 chip, and NVIDIA is pushing its DRIVE Thor platform for Level 4 robotaxis. There’s also a lot of emphasis on 5G-enabled vehicle-to-everything communication—cars talking to other cars and to infrastructure."
+    },
+    {
+      "utterance_id": "u3",
+      "speaker": "expert",
+      "text": "The technical story is about handling edge cases—rare events like extreme weather or unusual road behavior. One approach is training “physical AI” models in hyper-realistic virtual environments, so systems can rehearse scenarios that are dangerous or too infrequent to collect at scale. And then you pair that with faster chips and better connectivity so the vehicle can perceive, decide, and coordinate in real time."
+    },
+    {
+      "utterance_id": "u4",
+      "speaker": "host",
+      "text": "Humanoid robots also seemed to move from concept videos to actual production numbers. Companies like Agility Robotics, AGIBOT, and Galbot say they’ve built thousands of units for warehouses, retail, and manufacturing. And Boston Dynamics showed an Atlas prototype with very fine control—dozens of degrees of freedom and more fluid movement."
+    },
+    {
+      "utterance_id": "u5",
+      "speaker": "expert",
+      "text": "What’s new is the ecosystem around the robot, not just the body—software stacks, training pipelines, and the ability to deploy updates safely. When companies say “thousands of units,” that suggests they’re solving basics like maintenance, uptime, and integration with existing workflows. It’s less about a robot doing a backflip, and more about whether it can do repetitive tasks reliably for months."
+    },
+    {
+      "utterance_id": "u6",
+      "speaker": "host",
+      "text": "CES also highlighted how much of this depends on cloud and chip partnerships. NVIDIA’s Jetson Thor and Arm-based compute showed up in “simulation-to-deployment” pitches, and cloud providers are positioning their infrastructure as the backbone for robotics and autonomy. The message: the next wave of tech may be subscriptions and services—transportation on demand, AI on demand—rather than personal device ownership."
+    },
+    {
+      "utterance_id": "u7",
+      "speaker": "expert",
+      "text": "Exactly, and that changes who wins. The advantage goes to companies that can run huge training workloads, manage fleets of machines, and deliver updates securely—like a cloud product, but with moving hardware. It also raises policy and safety questions, because infrastructure-scale AI affects public spaces, not just personal screens."
+    }
+  ]
+}

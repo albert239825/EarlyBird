@@ -3,8 +3,11 @@ import os
 from typing import Any, Dict, List, Optional
 import dotenv
 from openai import OpenAI
+import logging
 
 dotenv.load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 
 class OpenAIScriptWriter:
@@ -19,7 +22,7 @@ class OpenAIScriptWriter:
         if not api_key:
             raise ValueError("OPENAI_API_KEY is required for OpenAIScriptWriter")
         self.client = OpenAI(api_key=api_key)
-        self.model = model or os.getenv("OPENAI_SCRIPT_MODEL", "gpt-5.2")
+        self.model = model or os.getenv("OPENAI_SCRIPT_MODEL", "gpt-4o")
 
 #     def write_story_script(self, headline: str, research_md: str, max_utterances: int = 14) -> List[Dict[str, str]]:
 #         """
@@ -116,10 +119,15 @@ class OpenAIScriptWriter:
         )
 
         # Provide a compact, structured episode input so the model can create coherent transitions.
+        # Truncate research docs to avoid token limit issues (keep first ~2000 chars per story)
+        MAX_RESEARCH_CHARS_PER_STORY = 2000
         stories_blob = []
         for i, s in enumerate(stories):
             headline = s.get("headline", "").strip()
             research_md = s.get("research_md", "").strip()
+            # Truncate if too long, preserving markdown structure
+            if len(research_md) > MAX_RESEARCH_CHARS_PER_STORY:
+                research_md = research_md[:MAX_RESEARCH_CHARS_PER_STORY] + "\n\n[... research truncated for length ...]"
             category = (s.get("category") or "").strip()
             stories_blob.append(
                 "\n".join(
@@ -163,7 +171,12 @@ Episode stories (in order):
 {os.linesep.join(stories_blob)}
 """.strip()
 
-        resp = self.client.chat.completions.create(
+        # Log request info for debugging
+        total_chars = len(user)
+        logger.info(f"Calling OpenAI API with model={self.model}, prompt_length={total_chars} chars, num_stories={len(stories)}")
+        
+        try:
+            resp = self.client.chat.completions.create(
             model=self.model,
             messages=[
                 {"role": "system", "content": system},
@@ -171,8 +184,13 @@ Episode stories (in order):
             ],
             response_format={"type": "json_object"},
             temperature=0.6,
-        )
-
+            timeout=120.0,  # 2 minute timeout to prevent hanging
+            )
+        except Exception as e:
+            logger.error(f"OpenAI API call failed: {e}")
+            raise
+        
+        logger.info("OpenAI API call completed successfully")
         content = resp.choices[0].message.content or ""
         data = json.loads(content)
         utterances = data.get("utterances")

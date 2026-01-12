@@ -61,19 +61,26 @@ class PodcastService:
             categories=categories,
         )
 
-        # Phase 2: Audio segments + Manifest
-        audio_generator = PodcastAudioGenerator(output_dir=str(podcast_dir / "audio"))
-        manifest = self.pipeline.generate_audio_segments_and_manifest(
-            podcast_dir=podcast_dir,
-            audio_generator=audio_generator
-        )
-        
-        # Save manifest
-        self.storage.save_manifest(podcast_dir, manifest)
+        # Phase 2: Audio segments + Manifest (only if GENERATE_AUDIO is enabled)
+        if Config.GENERATE_AUDIO:
+            logger.info("Audio generation enabled - generating segments...")
+            audio_generator = PodcastAudioGenerator(output_dir=str(podcast_dir / "audio"))
+            manifest = self.pipeline.generate_audio_segments_and_manifest(
+                podcast_dir=podcast_dir,
+                audio_generator=audio_generator
+            )
+            
+            # Save manifest
+            self.storage.save_manifest(podcast_dir, manifest)
 
-        # Save metadata centrally (minimally, just point at the directory)
-        self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
-        logger.info(f"Podcast generation complete: {podcast_dir} ({len(podcast_json.get('stories', []))} stories, {len(manifest.get('segments', []))} segments)")
+            # Save metadata centrally (minimally, just point at the directory)
+            self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
+            logger.info(f"Podcast generation complete: {podcast_dir} ({len(podcast_json.get('stories', []))} stories, {len(manifest.get('segments', []))} segments)")
+        else:
+            logger.info("Audio generation disabled (GENERATE_AUDIO=false) - skipping Phase 2")
+            logger.info(f"Podcast generation complete (scripts only): {podcast_dir} ({len(podcast_json.get('stories', []))} stories)")
+            # Still save metadata for consistency
+            self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
 
         return podcast_json
     
