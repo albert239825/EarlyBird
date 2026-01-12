@@ -38,6 +38,47 @@ class PodcastAudioGenerator:
 
         os.makedirs(self.audio_dir, exist_ok=True)
 
+    def generate_segment(self, speaker: str, text: str, output_path: str) -> int | None:
+        """
+        Generate a single MP3 segment for one utterance.
+        
+        Args:
+            speaker: "host" or "expert"
+            text: Text to convert to speech
+            output_path: Full path where MP3 should be saved
+            
+        Returns:
+            duration_ms if available, else None
+        """
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        
+        speaker = (speaker or "host").lower()
+        voice_id = self.SPEAKER_VOICES.get(speaker, self.SPEAKER_VOICES["host"])
+        
+        response = self.client.text_to_speech.convert(
+            voice_id=voice_id,
+            output_format="mp3_22050_32",
+            text=text,
+            model_id="eleven_flash_v2_5",
+            voice_settings=VoiceSettings(
+                stability=0.5,
+                similarity_boost=0.5,
+                style=0.0,
+                use_speaker_boost=True,
+            ),
+        )
+        
+        with open(output_path, "wb") as f:
+            for chunk in response:
+                if chunk:
+                    f.write(chunk)
+        
+        try:
+            audio = AudioSegment.from_mp3(output_path)
+            return int(audio.duration_seconds * 1000)
+        except Exception:
+            return None
+
     def text_to_speech_file(self, text: str, voice_id: str) -> str:
         """Converts text to speech using ElevenLabs with the specified voice, saves to an MP3 file."""
         response = self.client.text_to_speech.convert(

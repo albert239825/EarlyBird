@@ -14,6 +14,7 @@ from typing import Any, Dict, List
 import os
 import re
 import json
+import uuid
 
 logger = get_logger(__name__)
 
@@ -246,6 +247,65 @@ class PodcastPipeline:
             encoding="utf-8",
         )
         return podcast_json
+    
+    def generate_audio_segments_and_manifest(self, podcast_dir: Path, audio_generator: PodcastAudioGenerator) -> Dict[str, Any]:
+        """
+        Phase 2: generate audio segments from utterances and create manifest.json.
+        
+        Reads script/*.json files, generates MP3 segments, and creates manifest.json.
+        """
+        script_dir = podcast_dir / "script"
+        audio_pregen_dir = podcast_dir / "audio" / "pregen"
+        audio_pregen_dir.mkdir(parents=True, exist_ok=True)
+        
+        segments: List[Dict[str, Any]] = []
+        segment_counter = 1
+        
+        # Load all script files
+        script_files = sorted(script_dir.glob("story_*.json"))
+        logger.info(f"Generating audio segments from {len(script_files)} script files...")
+        
+        for script_file in script_files:
+            script_data = json.loads(script_file.read_text(encoding="utf-8"))
+            story_index = script_data["story_index"]
+            utterances = script_data["utterances"]
+            
+            for utterance in utterances:
+                segment_id = f"seg_{segment_counter:04d}"
+                utterance_id = utterance["utterance_id"]
+                speaker = utterance["speaker"]
+                text = utterance["text"]
+                
+                # Generate MP3 segment
+                segment_path = audio_pregen_dir / f"{segment_id}.mp3"
+                duration_ms = audio_generator.generate_segment(
+                    speaker=speaker,
+                    text=text,
+                    output_path=str(segment_path)
+                )
+                
+                # Add to manifest
+                segments.append({
+                    "segment_id": segment_id,
+                    "utterance_id": utterance_id,
+                    "story_index": story_index,
+                    "speaker": speaker,
+                    "text": text,
+                    "url": f"/podcasts/{podcast_dir.name}/segments/{segment_id}",
+                    "duration_ms": duration_ms,
+                    "source": "pregen"
+                })
+                
+                segment_counter += 1
+                logger.info(f"Generated segment {segment_id} ({speaker}): {text[:50]}...")
+        
+        manifest = {
+            "podcast_id": podcast_dir.name,
+            "segments": segments
+        }
+        
+        logger.info(f"Generated {len(segments)} audio segments")
+        return manifest
    
     def generate_next_part_podcast(self, index: int) -> str:
         """

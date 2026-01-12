@@ -43,6 +43,49 @@ class PodcastStorage:
         logger.info(f"Transcript saved to: {transcript_path}")
         return transcript_path
     
+    def save_manifest(self, podcast_dir: Path, manifest: Dict[str, Any]) -> Path:
+        """
+        Save manifest.json to podcast directory.
+        
+        Args:
+            podcast_dir: Directory where podcast files are stored
+            manifest: Manifest dictionary
+            
+        Returns:
+            Path to the saved manifest file
+        """
+        path = podcast_dir / "manifest.json"
+        path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+        logger.info(f"Manifest saved to: {path}")
+        return path
+    
+    def load_manifest(self, podcast_dir: Path) -> Dict[str, Any]:
+        """
+        Load manifest.json from podcast directory.
+        
+        Args:
+            podcast_dir: Directory where podcast files are stored
+            
+        Returns:
+            Manifest dictionary
+        """
+        path = podcast_dir / "manifest.json"
+        if not path.exists():
+            raise FileNotFoundError(f"Manifest not found: {path}")
+        return json.loads(path.read_text(encoding="utf-8"))
+    
+    def get_podcast_dir(self, podcast_id: str) -> Path:
+        """
+        Get podcast directory by ID.
+        
+        Args:
+            podcast_id: Podcast directory name
+            
+        Returns:
+            Path to podcast directory
+        """
+        return self.finished_podcasts_dir / podcast_id
+    
     def save_metadata(self, podcast_dir: Path, additional_data: Optional[Dict[str, Any]] = None):
         """
         Save podcast metadata to the central metadata file.

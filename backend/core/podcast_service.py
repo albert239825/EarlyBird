@@ -3,6 +3,7 @@ Podcast service - main business logic for podcast generation.
 """
 from pathlib import Path
 from backend.core.pipeline import PodcastPipeline
+from backend.audio.generator import PodcastAudioGenerator
 from backend.storage.podcast_storage import PodcastStorage
 from backend.storage.paths import generate_podcast_dir
 from backend.core.state_manager import PodcastState
@@ -43,18 +44,29 @@ class PodcastService:
 
     def generate_podcast(self, podcast_dir: Path, num_articles: int = 2):
         """
-        Phase 1 generation: research docs + HQ script utterances (no TTS).
+        Phase 1 + 2: research docs + HQ script utterances + pregen audio segments + manifest.
         """
         logger.info(f"Starting podcast generation for: {podcast_dir.name}")
 
+        # Phase 1: Research + Script
         podcast_json = self.pipeline.generate_research_and_script_assets(
             podcast_dir=podcast_dir,
             num_articles=num_articles,
         )
 
+        # Phase 2: Audio segments + Manifest
+        audio_generator = PodcastAudioGenerator(output_dir=str(podcast_dir / "audio"))
+        manifest = self.pipeline.generate_audio_segments_and_manifest(
+            podcast_dir=podcast_dir,
+            audio_generator=audio_generator
+        )
+        
+        # Save manifest
+        self.storage.save_manifest(podcast_dir, manifest)
+
         # Save metadata centrally (minimally, just point at the directory)
         self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
-        logger.info(f"Podcast generation complete: {podcast_dir} ({len(podcast_json.get('stories', []))} stories)")
+        logger.info(f"Podcast generation complete: {podcast_dir} ({len(podcast_json.get('stories', []))} stories, {len(manifest.get('segments', []))} segments)")
 
         return podcast_json
     

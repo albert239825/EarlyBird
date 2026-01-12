@@ -4,12 +4,14 @@ HTTP routes for the podcast API.
 from flask import request, send_from_directory, jsonify
 from backend.core.podcast_service import PodcastService
 from backend.core.pipeline import PodcastPipeline
+from backend.storage.podcast_storage import PodcastStorage
 from backend.config import Config
 from backend.utils.logging_config import get_logger
 import threading
 import whisper
 import os
 import json
+from pathlib import Path
 
 logger = get_logger(__name__)
 
@@ -119,6 +121,74 @@ def setup_routes(app, service: PodcastService):
                 return jsonify({"metadata": metadata}), 200
         except Exception as e:
             logger.error(f"Error retrieving transcripts: {str(e)}")
+            return jsonify({"error": "Internal server error"}), 500
+
+    @app.route("/podcasts/<podcast_id>/manifest", methods=["GET"])
+    def get_manifest(podcast_id):
+        """Get podcast manifest."""
+        try:
+            storage = PodcastStorage(Config.BACKEND_ROOT)
+            podcast_dir = storage.get_podcast_dir(podcast_id)
+            
+            if not podcast_dir.exists():
+                logger.error(f"Podcast directory not found: {podcast_dir}")
+                return jsonify({"error": "Podcast not found"}), 404
+            
+            manifest = storage.load_manifest(podcast_dir)
+            return jsonify(manifest), 200
+        except FileNotFoundError as e:
+            logger.error(f"Manifest not found: {str(e)}")
+            return jsonify({"error": "Manifest not found"}), 404
+        except Exception as e:
+            logger.exception(f"Error retrieving manifest: {str(e)}")
+            return jsonify({"error": "Internal server error"}), 500
+
+    @app.route("/podcasts/<podcast_id>/segments/<segment_id>", methods=["GET"])
+    def get_segment(podcast_id, segment_id):
+        """Serve audio segment MP3 file."""
+        try:
+            storage = PodcastStorage(Config.BACKEND_ROOT)
+            podcast_dir = storage.get_podcast_dir(podcast_id)
+            
+            if not podcast_dir.exists():
+                logger.error(f"Podcast directory not found: {podcast_dir}")
+                return jsonify({"error": "Podcast not found"}), 404
+            
+            # Load manifest to find segment
+            manifest = storage.load_manifest(podcast_dir)
+            segment_info = None
+            for seg in manifest.get("segments", []):
+                if seg.get("segment_id") == segment_id:
+                    segment_info = seg
+                    break
+            
+            if not segment_info:
+                logger.error(f"Segment not found: {segment_id}")
+                return jsonify({"error": "Segment not found"}), 404
+            
+            # Determine file path based on source
+            if segment_info.get("source") == "pregen":
+                segment_path = podcast_dir / "audio" / "pregen" / f"{segment_id}.mp3"
+            elif segment_info.get("source") == "dynamic":
+                segment_path = podcast_dir / "audio" / "dynamic" / f"{segment_id}.mp3"
+            else:
+                logger.error(f"Unknown segment source: {segment_info.get('source')}")
+                return jsonify({"error": "Invalid segment source"}), 500
+            
+            if not segment_path.exists():
+                logger.error(f"Audio file not found: {segment_path}")
+                return jsonify({"error": "Audio file not found"}), 404
+            
+            return send_from_directory(
+                str(segment_path.parent),
+                segment_path.name,
+                mimetype="audio/mpeg"
+            )
+        except FileNotFoundError as e:
+            logger.error(f"Segment file not found: {str(e)}")
+            return jsonify({"error": "Segment not found"}), 404
+        except Exception as e:
+            logger.exception(f"Error serving segment: {str(e)}")
             return jsonify({"error": "Internal server error"}), 500
 
     @app.route("/interrupt", methods=["POST"])
