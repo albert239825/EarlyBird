@@ -1,7 +1,5 @@
 "use client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import PodcastCard from "@/components/PodcastCard"
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000"
 
@@ -150,45 +149,13 @@ const PreviousPodcasts = () => {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {rows.map((row) => (
-            <Card key={row.podcastId}>
-              <CardHeader className="relative">
-                <CardTitle>{row.datetimeLabel}</CardTitle>
-                <div className="text-xs text-muted-foreground font-mono">{row.podcastId}</div>
-                <button
-                  onClick={() => handleDeleteClick(row.podcastId)}
-                  className="absolute top-4 right-4 p-1.5 rounded-md hover:bg-destructive/10 text-destructive hover:text-destructive/80 transition-colors"
-                  aria-label="Delete podcast"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 6h18" />
-                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                  </svg>
-                </button>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {row.storyTitles.length > 0 && (
-                  <ul className="list-disc pl-5 space-y-1 text-sm">
-                    {row.storyTitles.map((t, i) => (
-                      <li key={i}>{t}</li>
-                    ))}
-                  </ul>
-                )}
-                <a href={`/podcast-view/${row.podcastId}`} className="block">
-                  <Button className="w-full">Open</Button>
-                </a>
-              </CardContent>
-            </Card>
+            <PodcastCard
+              key={row.podcastId}
+              podcastId={row.podcastId}
+              datetimeLabel={row.datetimeLabel}
+              storyTitles={row.storyTitles}
+              onDelete={handleDeleteClick}
+            />
           ))}
         </div>
       )}
