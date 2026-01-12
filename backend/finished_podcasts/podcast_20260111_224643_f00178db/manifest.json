@@ -1,0 +1,145 @@
+{
+  "podcast_id": "podcast_20260111_224643_f00178db",
+  "segments": [
+    {
+      "segment_id": "seg_0001",
+      "utterance_id": "u0",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "Today, OpenAI unveiled ChatGPT Health, a new medical assistant that can analyze health records and wearable data securely.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0001",
+      "duration_ms": 9064,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0002",
+      "utterance_id": "u1",
+      "story_index": 0,
+      "speaker": "expert",
+      "text": "Yes, it's designed to help users by summarizing visit notes, explaining lab results, and preparing questions for doctors.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0002",
+      "duration_ms": 6844,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0003",
+      "utterance_id": "u2",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "I understand it's not meant to provide diagnoses or treatment decisions, but rather support clinicians.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0003",
+      "duration_ms": 6896,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0004",
+      "utterance_id": "u3",
+      "story_index": 0,
+      "speaker": "expert",
+      "text": "Exactly, it's positioned as an adjunct to healthcare professionals, not a replacement.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0004",
+      "duration_ms": 5041,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0005",
+      "utterance_id": "u4",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "What are some potential benefits of using ChatGPT Health?",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0005",
+      "duration_ms": 4205,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0006",
+      "utterance_id": "u5",
+      "story_index": 0,
+      "speaker": "expert",
+      "text": "Proponents believe it could improve reasoning quality by incorporating longitudinal records and wearable data.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0006",
+      "duration_ms": 6060,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0007",
+      "utterance_id": "u6",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "However, there are also concerns about data privacy and security, right?",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0007",
+      "duration_ms": 4937,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0008",
+      "utterance_id": "u7",
+      "story_index": 0,
+      "speaker": "expert",
+      "text": "Yes, centralizing sensitive health data in a commercial AI platform raises potential privacy and trust issues.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0008",
+      "duration_ms": 6530,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0009",
+      "utterance_id": "u8",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "How might this affect the healthcare industry as a whole?",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0009",
+      "duration_ms": 3631,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0010",
+      "utterance_id": "u9",
+      "story_index": 0,
+      "speaker": "expert",
+      "text": "It could accelerate AI integration into healthcare workflows, shifting the focus towards AI-assisted decision support.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0010",
+      "duration_ms": 6844,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0011",
+      "utterance_id": "u10",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "Do you foresee any changes in regulation as a result of this technology?",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0011",
+      "duration_ms": 4884,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0012",
+      "utterance_id": "u11",
+      "story_index": 0,
+      "speaker": "expert",
+      "text": "Regulatory frameworks may need to evolve, especially if AI systems become central to health decision-making.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0012",
+      "duration_ms": 6478,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0013",
+      "utterance_id": "u12",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "It sounds like ChatGPT Health could significantly impact both clinicians and patients.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0013",
+      "duration_ms": 6191,
+      "source": "pregen"
+    },
+    {
+      "segment_id": "seg_0014",
+      "utterance_id": "u13",
+      "story_index": 0,
+      "speaker": "host",
+      "text": "We'll see how this technology develops and its implications for the future of healthcare.",
+      "url": "/podcasts/podcast_20260111_224643_f00178db/segments/seg_0014",
+      "duration_ms": 5067,
+      "source": "pregen"
+    }
+  ]
+}

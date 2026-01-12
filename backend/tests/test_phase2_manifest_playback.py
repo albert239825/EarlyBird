@@ -573,9 +573,11 @@ def test_phase2_manifest_playback_integration_full(tmp_podcast_dir: Path, state,
     storage = PodcastStorage(backend_root)
     storage.save_manifest(tmp_podcast_dir, manifest)
     
+    # Verify manifest was saved and can be loaded
+    assert (tmp_podcast_dir / "manifest.json").exists(), "manifest.json should be saved to podcast directory"
     loaded_manifest = storage.load_manifest(tmp_podcast_dir)
     assert loaded_manifest == manifest, "Manifest should save/load correctly"
-    print("✓ Manifest save/load verified\n")
+    print("✓ Manifest saved to podcast directory and verified\n")
     
     print(f"{'='*60}")
     print("ALL ASSERTIONS PASSED!")

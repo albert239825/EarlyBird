@@ -1,0 +1,80 @@
+{
+  "story_index": 1,
+  "utterances": [
+    {
+      "utterance_id": "u0",
+      "speaker": "host",
+      "text": "Consumer sentiment has risen above expectations in January. Can you tell us more about this increase?"
+    },
+    {
+      "utterance_id": "u1",
+      "speaker": "expert",
+      "text": "The index reached 54.0, slightly exceeding predictions and marking a second consecutive monthly gain."
+    },
+    {
+      "utterance_id": "u2",
+      "speaker": "host",
+      "text": "Despite this rise, it's still below last year's levels, correct?"
+    },
+    {
+      "utterance_id": "u3",
+      "speaker": "expert",
+      "text": "Yes, it's 25% below January 2025 levels, reflecting ongoing concerns about inflation and economic stability."
+    },
+    {
+      "utterance_id": "u4",
+      "speaker": "host",
+      "text": "Which income groups are experiencing these changes in sentiment?"
+    },
+    {
+      "utterance_id": "u5",
+      "speaker": "expert",
+      "text": "Lower-income households have shown gains, while higher-income groups have reported a decline in sentiment."
+    },
+    {
+      "utterance_id": "u6",
+      "speaker": "host",
+      "text": "What seems to be driving these changes in consumer sentiment?"
+    },
+    {
+      "utterance_id": "u7",
+      "speaker": "expert",
+      "text": "Inflation worries remain a dominant concern, despite a relatively stable CPI at 2.7%."
+    },
+    {
+      "utterance_id": "u8",
+      "speaker": "host",
+      "text": "How are expectations for inflation changing?"
+    },
+    {
+      "utterance_id": "u9",
+      "speaker": "expert",
+      "text": "Year-ahead expectations are steady at 4.2%, the lowest in nearly a year, though long-term expectations have risen slightly."
+    },
+    {
+      "utterance_id": "u10",
+      "speaker": "host",
+      "text": "Are there any broader economic implications from this sentiment shift?"
+    },
+    {
+      "utterance_id": "u11",
+      "speaker": "expert",
+      "text": "Trading Economics forecasts the index to trend to 58 by 2027, suggesting mild optimism as the labor market softens."
+    },
+    {
+      "utterance_id": "u12",
+      "speaker": "host",
+      "text": "What role has the Federal Reserve played in this sentiment change?"
+    },
+    {
+      "utterance_id": "u13",
+      "speaker": "expert",
+      "text": "The Fed's rate cuts in 2025 have contributed to a slight boost in optimism, although rate rise expectations are increasing."
+    },
+    {
+      "utterance_id": "u14",
+      "speaker": "host",
+      "text": "Thank you for the insights. It's clear that while there's some optimism, challenges remain for consumers moving forward."
+    }
+  ]
+}

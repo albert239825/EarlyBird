@@ -59,6 +59,7 @@ class PodcastAudioGenerator:
             voice_id=voice_id,
             output_format="mp3_22050_32",
             text=text,
+            # model_id="eleven_v3",  # high quality model
             model_id="eleven_flash_v2_5",
             voice_settings=VoiceSettings(
                 stability=0.5,

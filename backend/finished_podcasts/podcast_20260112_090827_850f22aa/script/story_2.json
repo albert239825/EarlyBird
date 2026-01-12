@@ -1,0 +1,75 @@
+{
+  "story_index": 2,
+  "utterances": [
+    {
+      "utterance_id": "u0",
+      "speaker": "host",
+      "text": "Today, we're diving into Navy's incredible start in men's squash, led by sophomore Wenqing Tang."
+    },
+    {
+      "utterance_id": "u1",
+      "speaker": "expert",
+      "text": "That's right, the team is 16-0 this season, thanks largely to Tang's unbeaten streak."
+    },
+    {
+      "utterance_id": "u2",
+      "speaker": "host",
+      "text": "Tang's performance is impressive, especially his recent match against Vermont."
+    },
+    {
+      "utterance_id": "u3",
+      "speaker": "expert",
+      "text": "He won a tough five-game match, showcasing his resilience and skill."
+    },
+    {
+      "utterance_id": "u4",
+      "speaker": "host",
+      "text": "How has Tang's success impacted the team's overall performance?"
+    },
+    {
+      "utterance_id": "u5",
+      "speaker": "expert",
+      "text": "His leadership has inspired teammates like Matt Kang, who's also undefeated this season."
+    },
+    {
+      "utterance_id": "u6",
+      "speaker": "host",
+      "text": "It sounds like Tang is setting records both personally and for the team."
+    },
+    {
+      "utterance_id": "u7",
+      "speaker": "expert",
+      "text": "Absolutely, he's only five wins away from reaching 70 career victories, a significant milestone."
+    },
+    {
+      "utterance_id": "u8",
+      "speaker": "host",
+      "text": "What about other key players on the team, like Ramsay Killinger?"
+    },
+    {
+      "utterance_id": "u9",
+      "speaker": "expert",
+      "text": "Killinger is also close to a milestone, needing just six more wins for 50 career victories."
+    },
+    {
+      "utterance_id": "u10",
+      "speaker": "host",
+      "text": "It's fascinating how these players are pushing each other to new heights."
+    },
+    {
+      "utterance_id": "u11",
+      "speaker": "expert",
+      "text": "Indeed, the competitive spirit within the team has been crucial to their historic start."
+    },
+    {
+      "utterance_id": "u12",
+      "speaker": "host",
+      "text": "With such momentum, it will be exciting to see how they continue this season."
+    },
+    {
+      "utterance_id": "u13",
+      "speaker": "host",
+      "text": "Thanks for the insights, and we'll keep an eye on Tang and the Navy squad's progress."
+    }
+  ]
+}

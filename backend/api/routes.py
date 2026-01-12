@@ -12,6 +12,7 @@ import whisper
 import os
 import json
 from pathlib import Path
+from typing import Any, List, Optional
 
 logger = get_logger(__name__)
 
@@ -36,11 +37,31 @@ def setup_routes(app, service: PodcastService):
         try:
             payload = request.get_json(silent=True) or {}
             num_articles = int(payload.get("num_articles", 2))
+            categories = payload.get("categories", None)
+
+            # Validate categories input: must be list of len == num_articles; elements are str or None
+            parsed_categories: Optional[List[Optional[str]]] = None
+            if categories is not None:
+                if not isinstance(categories, list):
+                    return jsonify({"error": "`categories` must be a list or null"}), 400
+                if len(categories) != num_articles:
+                    return jsonify({"error": "`categories` length must equal `num_articles`"}), 400
+                parsed_categories = []
+                for idx, c in enumerate(categories):
+                    if c is None:
+                        parsed_categories.append(None)
+                    elif isinstance(c, str):
+                        parsed_categories.append(c)
+                    else:
+                        return jsonify({"error": f"`categories[{idx}]` must be a string or null"}), 400
 
             podcast_dir = service.create_podcast_dir()
             podcast_id = podcast_dir.name
 
-            thread = threading.Thread(target=service.generate_podcast, args=(podcast_dir, num_articles))
+            thread = threading.Thread(
+                target=service.generate_podcast,
+                args=(podcast_dir, num_articles, parsed_categories),
+            )
             thread.daemon = True
             thread.start()
             return jsonify({"podcast_id": podcast_id}), 200

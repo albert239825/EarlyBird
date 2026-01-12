@@ -10,7 +10,9 @@ from backend.models.article import SimpleArticle
 from backend.core.state_manager import PodcastState
 from backend.utils.logging_config import get_logger
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
+from collections import Counter
+import random
 import os
 import re
 import json
@@ -47,40 +49,82 @@ class PodcastPipeline:
 
     def parse_scraper_response(self, response: str) -> str:
         """Extract headline from scraper response"""
+        headlines = self.parse_headlines(response)
+        return headlines[0] if headlines else ""
+
+    def parse_headlines(self, response: str) -> List[str]:
+        """Extract all <HEADLINE>...</HEADLINE> blocks from a scraper response."""
+        if not response:
+            return []
         headlines = re.findall(r"<HEADLINE>(.*?)</HEADLINE>", response, re.DOTALL)
-        list_of_headlines = [headline.strip() for headline in headlines]
-        if list_of_headlines:
-            return list_of_headlines[0]
-        return ""
+        return [h.strip() for h in headlines if h and h.strip()]
     
-    def _get_articles_from_perplexity(self, num_articles: int) -> List[SimpleArticle]:
+    def _get_articles_from_perplexity(
+        self,
+        num_articles: int,
+        categories: Optional[List[Optional[str]]] = None,
+    ) -> List[SimpleArticle]:
         """
         Get articles using Perplexity scraper.
         
         Args:
             num_articles: Number of articles to fetch
+            categories: Optional list of categories per story index. If an element is None,
+              a random category will be selected for that story.
             
         Returns:
             List of SimpleArticle objects
         """
-        articles = []
-        categories = ["Technology", "Science", "Business", "World News", "Politics"]
+        articles: List[SimpleArticle] = []
+        default_categories = ["Technology", "Science", "Business", "World News", "Politics"]
         
         logger.info(f"Fetching {num_articles} articles from Perplexity...")
-        
-        for i in range(num_articles):
-            category = categories[i % len(categories)]
-            
+
+        # Resolve per-story categories (preserve old behavior when categories is None)
+        resolved_categories: List[str] = []
+        if categories is None:
+            for i in range(num_articles):
+                resolved_categories.append(default_categories[i % len(default_categories)])
+        else:
+            for i in range(num_articles):
+                cat = categories[i] if i < len(categories) else None
+                if cat is None:
+                    resolved_categories.append(random.choice(default_categories))
+                else:
+                    resolved_categories.append(str(cat))
+
+        # Count how many headlines we need per category so duplicates can be satisfied
+        needed_per_category = Counter(resolved_categories)
+
+        # Cache of headlines to avoid repeat API calls for duplicate categories
+        headline_cache: Dict[str, List[str]] = {}
+
+        for i, category in enumerate(resolved_categories):
             try:
-                scraper_result = self.scraper.get_top_headlines(category)
-                if not scraper_result or not scraper_result.get("content"):
-                    logger.warning(f"Failed to get headline for category {category}, trying next...")
-                    continue
-                
-                headline = self.parse_scraper_response(scraper_result["content"])
+                if category not in headline_cache:
+                    need = max(1, int(needed_per_category.get(category, 1)))
+                    scraper_result = self.scraper.get_top_headlines(category, count=need)
+                    if not scraper_result or not scraper_result.get("content"):
+                        logger.warning(f"Failed to get headline(s) for category {category}, using placeholder...")
+                        headline_cache[category] = []
+                    else:
+                        parsed = self.parse_headlines(scraper_result["content"])
+                        if len(parsed) < need:
+                            logger.warning(
+                                f"Only got {len(parsed)}/{need} headlines for category '{category}'. "
+                                "Padding with placeholders to avoid extra API calls."
+                            )
+                            parsed = parsed + [
+                                f"Top {category} Story {j + 1}"
+                                for j in range(len(parsed), need)
+                            ]
+                        headline_cache[category] = parsed
+
+                # Pop next headline for this category (duplicate-safe)
+                headline_list = headline_cache.get(category) or []
+                headline = headline_list.pop(0) if headline_list else ""
                 if not headline:
-                    logger.warning(f"Failed to parse headline, trying next...")
-                    continue
+                    headline = f"Top {category} Story {i + 1}"
                 
                 article = SimpleArticle(title=headline, abstract=headline)
                 articles.append(article)
@@ -100,63 +144,68 @@ class PodcastPipeline:
         
         return articles[:num_articles]
     
-    def generate_podcast(self) -> str:
-        """
-        Generate a complete podcast.
+    # def generate_podcast(self) -> str:
+    #     """
+    #     Generate a complete podcast.
         
-        Returns:
-            Script text (currently empty, but structure is built)
-        """
-        script = ''
-        num_articles = 2
-        logger.info("Generating news articles using Perplexity...")
-        news_articles: List[SimpleArticle] = self._get_articles_from_perplexity(num_articles=num_articles)
+    #     Returns:
+    #         Script text (currently empty, but structure is built)
+    #     """
+    #     script = ''
+    #     num_articles = 2
+    #     logger.info("Generating news articles using Perplexity...")
+    #     news_articles: List[SimpleArticle] = self._get_articles_from_perplexity(num_articles=num_articles)
 
-        # Set articles in state
-        self.state.set_articles([{
-            "article_data": article,
-            "total_articles": num_articles
-        } for article in news_articles])
+    #     # Set articles in state
+    #     self.state.set_articles([{
+    #         "article_data": article,
+    #         "total_articles": num_articles
+    #     } for article in news_articles])
         
-        self.state.current_article_index = 0
+    #     self.state.current_article_index = 0
 
-        # Process each article
-        news_item_index = 0
-        for news_item in news_articles:
-            logger.info("Conducting deep research...")
-            researched_stories = self.researcher.research_stories(news_item.title, news_item.abstract)
-            research_content = researched_stories[0]["research"]["choices"][0]["message"]["content"]
+    #     # Process each article
+    #     news_item_index = 0
+    #     for news_item in news_articles:
+    #         logger.info("Conducting deep research...")
+    #         researched_stories = self.researcher.research_stories(news_item.title, news_item.abstract)
+    #         research_content = researched_stories[0]["research"]["choices"][0]["message"]["content"]
             
-            # Update state with research
-            self.state.update_article_research(news_item_index, research_content)
-            self.state.update_article_script(news_item_index, {
-                "to_generate_index": 0,
-                "main_remaining": 5,
-                "is_host": True,
-                "texts": []
-            })
+    #         # Update state with research
+    #         self.state.update_article_research(news_item_index, research_content)
+    #         self.state.update_article_script(news_item_index, {
+    #             "to_generate_index": 0,
+    #             "main_remaining": 5,
+    #             "is_host": True,
+    #             "texts": []
+    #         })
 
-            logger.info(f"Generating script for {news_item.title}...")
+    #         logger.info(f"Generating script for {news_item.title}...")
 
-            script_generator = PodcastScriptGenerator(self.mistral_api_key)
-            self.script_generators.append(script_generator)
-            first_script = script_generator.generate_next_script(
-                True, False, news_item, research_content, 0, 
-                include_first_hello=(news_item_index == 0)
-            )
+    #         script_generator = PodcastScriptGenerator(self.mistral_api_key)
+    #         self.script_generators.append(script_generator)
+    #         first_script = script_generator.generate_next_script(
+    #             True, False, news_item, research_content, 0, 
+    #             include_first_hello=(news_item_index == 0)
+    #         )
             
-            # Update state with script
-            self.state.append_script_text(news_item_index, "host", first_script)
-            self.state.increment_script_index(news_item_index)
-            self.state.decrement_remaining(news_item_index)
-            self.state.toggle_host(news_item_index)
+    #         # Update state with script
+    #         self.state.append_script_text(news_item_index, "host", first_script)
+    #         self.state.increment_script_index(news_item_index)
+    #         self.state.decrement_remaining(news_item_index)
+    #         self.state.toggle_host(news_item_index)
 
-            self.state.emit_articles()
-            news_item_index += 1
+    #         self.state.emit_articles()
+    #         news_item_index += 1
             
-        return script
+    #     return script
 
-    def generate_research_and_script_assets(self, podcast_dir: Path, num_articles: int = 2) -> Dict[str, Any]:
+    def generate_research_and_script_assets(
+        self,
+        podcast_dir: Path,
+        num_articles: int = 2,
+        categories: Optional[List[Optional[str]]] = None,
+    ) -> Dict[str, Any]:
         """
         Phase 1: generate and persist research docs + HQ script utterances (no TTS).
         Writes:
@@ -171,7 +220,10 @@ class PodcastPipeline:
         script_dir.mkdir(parents=True, exist_ok=True)
 
         logger.info("Generating news articles using Perplexity...")
-        news_articles: List[SimpleArticle] = self._get_articles_from_perplexity(num_articles=num_articles)
+        news_articles: List[SimpleArticle] = self._get_articles_from_perplexity(
+            num_articles=num_articles,
+            categories=categories,
+        )
 
         # Update state early so clients can render placeholders
         self.state.set_articles([{
@@ -362,50 +414,50 @@ class PodcastPipeline:
         response = self.script_generators[index].answer_question(article_data, research_data, question)
         return response
 
-    def user_ask_expert(self, question: str, filepath: str, backend_root) -> str:
-        """
-        Handle user asking expert a question during podcast playback.
+    # def user_ask_expert(self, question: str, filepath: str, backend_root) -> str:
+    #     """
+    #     Handle user asking expert a question during podcast playback.
         
-        Args:
-            question: User's question
-            filepath: Path to the podcast file
-            backend_root: Backend root directory
+    #     Args:
+    #         question: User's question
+    #         filepath: Path to the podcast file
+    #         backend_root: Backend root directory
             
-        Returns:
-            Path to the generated interrupt audio file
-        """
-        from pathlib import Path
+    #     Returns:
+    #         Path to the generated interrupt audio file
+    #     """
+    #     from pathlib import Path
         
-        json_file_path = Path(backend_root) / "finished_podcasts" / "podcast_metadata.json"
+    #     json_file_path = Path(backend_root) / "finished_podcasts" / "podcast_metadata.json"
         
-        logger.info(f"Looking for metadata file at: {json_file_path}")
-        logger.info(f"Searching for filepath: {filepath}")
+    #     logger.info(f"Looking for metadata file at: {json_file_path}")
+    #     logger.info(f"Searching for filepath: {filepath}")
         
-        with open(json_file_path, "r") as file:
-            data = json.load(file)
-            logger.info("Available filepaths in metadata:", [p.get("file_path") for p in data["metadata"]])
+    #     with open(json_file_path, "r") as file:
+    #         data = json.load(file)
+    #         logger.info("Available filepaths in metadata:", [p.get("file_path") for p in data["metadata"]])
 
-        i = int(filepath[filepath.rfind('.mp3') - 1])
-        stories = None
-        for podcast in data["metadata"]:
-            if filepath in podcast["file_path"]:
-                stories = podcast["stories"]
-                break
+    #     i = int(filepath[filepath.rfind('.mp3') - 1])
+    #     stories = None
+    #     for podcast in data["metadata"]:
+    #         if filepath in podcast["file_path"]:
+    #             stories = podcast["stories"]
+    #             break
                 
-        if stories is None:
-            raise ValueError(f"No podcast found with filepath: {filepath}")
+    #     if stories is None:
+    #         raise ValueError(f"No podcast found with filepath: {filepath}")
 
-        script_generator = PodcastScriptGenerator(self.mistral_api_key)
-        script_generator.chat_history.append(f"<HOST{i}>{question}</HOST{i}>")
+    #     script_generator = PodcastScriptGenerator(self.mistral_api_key)
+    #     script_generator.chat_history.append(f"<HOST{i}>{question}</HOST{i}>")
         
-        story_draft = stories[i // 2]["story"][0]['draft']
-        article = SimpleArticle(title="Question", abstract=story_draft, content=story_draft)
-        ans = script_generator.generate_response(
-            script_generator.expert_chain, article, question, story_draft, question=True
-        )
+    #     story_draft = stories[i // 2]["story"][0]['draft']
+    #     article = SimpleArticle(title="Question", abstract=story_draft, content=story_draft)
+    #     ans = script_generator.generate_response(
+    #         script_generator.expert_chain, article, question, story_draft, question=True
+    #     )
 
-        output_dir = os.path.dirname(filepath)
-        audio_generator = PodcastAudioGenerator(output_dir=output_dir)
-        interrupt_path = os.path.join(output_dir, f"podcast_interrupt_{i}.mp3")
-        audio_generator.generate_interrupt_response(ans, interrupt_path)
-        return interrupt_path
+    #     output_dir = os.path.dirname(filepath)
+    #     audio_generator = PodcastAudioGenerator(output_dir=output_dir)
+    #     interrupt_path = os.path.join(output_dir, f"podcast_interrupt_{i}.mp3")
+    #     audio_generator.generate_interrupt_response(ans, interrupt_path)
+    #     return interrupt_path

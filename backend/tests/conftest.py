@@ -5,13 +5,28 @@ from pathlib import Path
 from datetime import datetime
 
 import pytest
+from dotenv import load_dotenv
 
 # Ensure project root is on sys.path (mirrors backend/app.py behavior)
 _project_root = Path(__file__).resolve().parents[2]
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
+load_dotenv(_project_root / ".env", override=False)
+
 from backend.core.state_manager import PodcastState
+
+
+def pytest_addoption(parser):
+    """
+    Add custom pytest command-line options.
+    """
+    parser.addoption(
+        "--keep-test-output",
+        action="store_true",
+        default=False,
+        help="Persist test outputs to backend/tests/test_output/ for integration tests",
+    )
 
 
 def pytest_collection_modifyitems(config, items):
@@ -70,16 +85,16 @@ def tmp_backend_root(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
-def test_output_dir() -> Path | None:
+def test_output_dir(request) -> Path | None:
     """
     Optional persistent test output directory for inspecting integration test artifacts.
     
-    Set KEEP_TEST_OUTPUT=1 environment variable to enable.
+    Use --keep-test-output flag to enable.
     Outputs will be saved to backend/tests/test_output/<test_name>_<timestamp>/
     
-    Returns None if KEEP_TEST_OUTPUT is not set (files won't be persisted).
+    Returns None if --keep-test-output is not set (files won't be persisted).
     """
-    if not os.getenv("KEEP_TEST_OUTPUT"):
+    if not request.config.getoption("--keep-test-output"):
         return None
     
     output_base = Path(__file__).parent / "test_output"
@@ -103,7 +118,7 @@ def persist_test_output(request, tmp_podcast_dir: Path, test_output_dir: Path | 
     Automatically copy test directory to persistent location after integration tests.
     
     Only runs if:
-    - KEEP_TEST_OUTPUT=1 is set
+    - --keep-test-output flag is set
     - Test is marked with @pytest.mark.integration
     - Test passes (so you can inspect successful runs)
     """
@@ -112,7 +127,7 @@ def persist_test_output(request, tmp_podcast_dir: Path, test_output_dir: Path | 
         yield
         return
     
-    # Only persist if KEEP_TEST_OUTPUT is set
+    # Only persist if --keep-test-output flag is set
     if test_output_dir is None:
         yield
         return

@@ -24,10 +24,11 @@ class OpenAIScriptWriter:
         Generate a host/expert conversation script for a single story.
         """
         system = (
-            "You write concise, high-quality podcast scripts.\n"
+            "You write concise, high-quality news podcast scripts similar to NPR up first.\n"
             "Return ONLY valid JSON.\n"
             "No markdown, no extra keys.\n"
-            "Keep each utterance 1-2 sentences.\n"
+            "Keep each utterance 4-6 sentences.\n"
+            "Keep each story 3-4 minutes long.\n"
         )
         user = f"""
 Write a short back-and-forth between a host and an expert about this story.

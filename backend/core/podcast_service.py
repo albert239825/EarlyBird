@@ -9,6 +9,7 @@ from backend.storage.paths import generate_podcast_dir
 from backend.core.state_manager import PodcastState
 from backend.config import Config
 from backend.utils.logging_config import get_logger
+from typing import List, Optional
 
 logger = get_logger(__name__)
 
@@ -42,7 +43,12 @@ class PodcastService:
         """Create a unique podcast directory and return it."""
         return generate_podcast_dir(Config.PODCAST_DIR)
 
-    def generate_podcast(self, podcast_dir: Path, num_articles: int = 2):
+    def generate_podcast(
+        self,
+        podcast_dir: Path,
+        num_articles: int = 2,
+        categories: Optional[List[Optional[str]]] = None,
+    ):
         """
         Phase 1 + 2: research docs + HQ script utterances + pregen audio segments + manifest.
         """
@@ -52,6 +58,7 @@ class PodcastService:
         podcast_json = self.pipeline.generate_research_and_script_assets(
             podcast_dir=podcast_dir,
             num_articles=num_articles,
+            categories=categories,
         )
 
         # Phase 2: Audio segments + Manifest

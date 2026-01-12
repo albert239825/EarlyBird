@@ -29,9 +29,9 @@ def test_post_generate_returns_podcast_id(tmp_path, monkeypatch):
             d.mkdir(parents=True, exist_ok=True)
             return d
 
-        def generate_podcast(self, podcast_dir: Path, num_articles: int):
+        def generate_podcast(self, podcast_dir: Path, num_articles: int, categories=None):
             self.called = True
-            self.args = (podcast_dir, num_articles)
+            self.args = (podcast_dir, num_articles, categories)
 
     service = _Service()
 
@@ -47,4 +47,5 @@ def test_post_generate_returns_podcast_id(tmp_path, monkeypatch):
     assert resp.get_json()["podcast_id"] == "podcast_abc"
     assert service.called
     assert service.args[1] == 1
+    assert service.args[2] is None
 
