@@ -2,6 +2,7 @@
 Storage utilities for saving podcasts and metadata.
 """
 import json
+import shutil
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, Optional
@@ -147,3 +148,56 @@ class PodcastStorage:
             if "file_path" in entry and filepath in entry["file_path"]:
                 return entry
         return None
+    
+    def delete_podcast(self, podcast_id: str) -> bool:
+        """
+        Delete a podcast directory and remove its entry from metadata.
+        
+        Args:
+            podcast_id: Podcast ID to delete
+            
+        Returns:
+            True if deletion was successful, False otherwise
+        """
+        try:
+            podcast_dir = self.get_podcast_dir(podcast_id)
+            
+            # Delete the podcast directory if it exists
+            if podcast_dir.exists():
+                shutil.rmtree(podcast_dir)
+                logger.info(f"Deleted podcast directory: {podcast_dir}")
+            else:
+                logger.warning(f"Podcast directory not found: {podcast_dir}")
+            
+            # Remove entry from metadata
+            if not self.metadata_file.exists():
+                logger.warning(f"Metadata file not found: {self.metadata_file}")
+                return True  # Directory deleted, metadata doesn't exist - consider success
+            
+            # Read existing metadata
+            with open(self.metadata_file, "r") as f:
+                data = json.load(f)
+            
+            # Filter out entries matching this podcast_id
+            original_count = len(data.get("metadata", []))
+            data["metadata"] = [
+                entry
+                for entry in data.get("metadata", [])
+                if not (
+                    entry.get("podcast_id") == podcast_id
+                    or (entry.get("podcast_dir") and podcast_id in str(entry.get("podcast_dir")))
+                )
+            ]
+            removed_count = original_count - len(data["metadata"])
+            
+            # Save updated metadata
+            with open(self.metadata_file, "w") as f:
+                json.dump(data, f, indent=4)
+            
+            if removed_count > 0:
+                logger.info(f"Removed {removed_count} metadata entry/entries for podcast: {podcast_id}")
+            
+            return True
+        except Exception as e:
+            logger.exception(f"Error deleting podcast {podcast_id}: {str(e)}")
+            return False

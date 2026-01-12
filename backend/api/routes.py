@@ -165,6 +165,26 @@ def setup_routes(app, service: PodcastService):
             logger.error(f"Error retrieving transcripts: {str(e)}")
             return jsonify({"error": "Internal server error"}), 500
 
+    @app.route("/podcasts/<podcast_id>", methods=["DELETE"])
+    def delete_podcast(podcast_id):
+        """Delete a podcast and its metadata."""
+        try:
+            storage = PodcastStorage(Config.BACKEND_ROOT)
+            podcast_dir = storage.get_podcast_dir(podcast_id)
+            
+            if not podcast_dir.exists():
+                logger.warning(f"Podcast directory not found: {podcast_dir}")
+                return jsonify({"error": "Podcast not found"}), 404
+            
+            success = storage.delete_podcast(podcast_id)
+            if success:
+                return jsonify({"message": "Podcast deleted successfully"}), 200
+            else:
+                return jsonify({"error": "Failed to delete podcast"}), 500
+        except Exception as e:
+            logger.exception(f"Error deleting podcast {podcast_id}: {str(e)}")
+            return jsonify({"error": "Internal server error"}), 500
+
     @app.route("/podcasts/<podcast_id>/manifest", methods=["GET"])
     def get_manifest(podcast_id):
         """Get podcast manifest."""
