@@ -6,11 +6,6 @@
             "podcast_id": "podcast_20260111_224504_c1113fb1"
         },
         {
-            "datetime": "2026-01-11 22:47:06",
-            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260111_224643_f00178db",
-            "podcast_id": "podcast_20260111_224643_f00178db"
-        },
-        {
             "datetime": "2026-01-12 09:09:46",
             "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_090827_850f22aa",
             "podcast_id": "podcast_20260112_090827_850f22aa"
@@ -19,6 +14,21 @@
             "datetime": "2026-01-12 10:01:49",
             "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_100034_2d5ffbab",
             "podcast_id": "podcast_20260112_100034_2d5ffbab"
+        },
+        {
+            "datetime": "2026-01-12 10:20:51",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_101851_9bc38daa",
+            "podcast_id": "podcast_20260112_101851_9bc38daa"
+        },
+        {
+            "datetime": "2026-01-12 10:27:24",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_102629_a94005dd",
+            "podcast_id": "podcast_20260112_102629_a94005dd"
+        },
+        {
+            "datetime": "2026-01-12 12:02:56",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_120156_7ef98860",
+            "podcast_id": "podcast_20260112_120156_7ef98860"
         }
     ]
 }
