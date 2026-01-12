@@ -9,7 +9,7 @@ from backend.storage.paths import generate_podcast_dir
 from backend.core.state_manager import PodcastState
 from backend.config import Config
 from backend.utils.logging_config import get_logger
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 logger = get_logger(__name__)
 
@@ -43,6 +43,73 @@ class PodcastService:
         """Create a unique podcast directory and return it."""
         return generate_podcast_dir(Config.PODCAST_DIR)
 
+    def generate_script_assets(
+        self,
+        podcast_dir: Path,
+        num_articles: int = 2,
+        categories: Optional[List[Optional[str]]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Phase 1 only: Generate research docs + HQ script utterances (no audio).
+        
+        Args:
+            podcast_dir: Directory for podcast files
+            num_articles: Number of articles/stories
+            categories: Optional list of categories per story
+            
+        Returns:
+            Dictionary with podcast_id and stories metadata
+        """
+        logger.info(f"Generating script assets for: {podcast_dir.name}")
+        
+        podcast_json = self.pipeline.generate_research_and_script_assets(
+            podcast_dir=podcast_dir,
+            num_articles=num_articles,
+            categories=categories,
+        )
+        
+        # Save metadata
+        self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
+        logger.info(f"Script generation complete: {podcast_dir} ({len(podcast_json.get('stories', []))} stories)")
+        
+        return podcast_json
+    
+    def generate_audio_assets(self, podcast_dir: Path) -> Dict[str, Any]:
+        """
+        Phase 2 only: Generate audio segments + manifest from existing scripts.
+        
+        Args:
+            podcast_dir: Directory containing script files
+            
+        Returns:
+            Manifest dictionary
+        """
+        logger.info(f"Generating audio assets for: {podcast_dir.name}")
+        
+        if not podcast_dir.exists():
+            raise FileNotFoundError(f"Podcast directory not found: {podcast_dir}")
+        
+        # Check if script files exist
+        script_dir = podcast_dir / "script"
+        if not script_dir.exists():
+            raise ValueError(f"No script directory found in {podcast_dir}. Run script generation first.")
+        
+        script_files = list(script_dir.glob("story_*.json"))
+        if not script_files and not (script_dir / "intro.json").exists():
+            raise ValueError(f"No script files found in {script_dir}. Run script generation first.")
+        
+        audio_generator = PodcastAudioGenerator(output_dir=str(podcast_dir / "audio"))
+        manifest = self.pipeline.generate_audio_segments_and_manifest(
+            podcast_dir=podcast_dir,
+            audio_generator=audio_generator
+        )
+        
+        # Save manifest
+        self.storage.save_manifest(podcast_dir, manifest)
+        logger.info(f"Audio generation complete: {podcast_dir} ({len(manifest.get('segments', []))} segments)")
+        
+        return manifest
+
     def generate_podcast(
         self,
         podcast_dir: Path,
@@ -52,10 +119,10 @@ class PodcastService:
         """
         Phase 1 + 2: research docs + HQ script utterances + pregen audio segments + manifest.
         """
-        logger.info(f"Starting podcast generation for: {podcast_dir.name}")
+        logger.info(f"Starting full podcast generation for: {podcast_dir.name}")
 
         # Phase 1: Research + Script
-        podcast_json = self.pipeline.generate_research_and_script_assets(
+        podcast_json = self.generate_script_assets(
             podcast_dir=podcast_dir,
             num_articles=num_articles,
             categories=categories,
@@ -63,26 +130,30 @@ class PodcastService:
 
         # Phase 2: Audio segments + Manifest (only if GENERATE_AUDIO is enabled)
         if Config.GENERATE_AUDIO:
-            logger.info("Audio generation enabled - generating segments...")
-            audio_generator = PodcastAudioGenerator(output_dir=str(podcast_dir / "audio"))
-            manifest = self.pipeline.generate_audio_segments_and_manifest(
-                podcast_dir=podcast_dir,
-                audio_generator=audio_generator
-            )
-            
-            # Save manifest
-            self.storage.save_manifest(podcast_dir, manifest)
-
-            # Save metadata centrally (minimally, just point at the directory)
-            self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
+            manifest = self.generate_audio_assets(podcast_dir)
             logger.info(f"Podcast generation complete: {podcast_dir} ({len(podcast_json.get('stories', []))} stories, {len(manifest.get('segments', []))} segments)")
         else:
             logger.info("Audio generation disabled (GENERATE_AUDIO=false) - skipping Phase 2")
-            logger.info(f"Podcast generation complete (scripts only): {podcast_dir} ({len(podcast_json.get('stories', []))} stories)")
-            # Still save metadata for consistency
-            self.storage.save_metadata(podcast_dir, additional_data={"podcast_id": podcast_dir.name})
 
         return podcast_json
+    
+    def get_podcast_dir_by_id(self, podcast_id: str) -> Path:
+        """
+        Get podcast directory by ID.
+        
+        Args:
+            podcast_id: Podcast ID (directory name)
+            
+        Returns:
+            Path to podcast directory
+            
+        Raises:
+            FileNotFoundError: If podcast directory doesn't exist
+        """
+        podcast_dir = self.storage.get_podcast_dir(podcast_id)
+        if not podcast_dir.exists():
+            raise FileNotFoundError(f"Podcast not found: {podcast_id}")
+        return podcast_dir
     
     def generate_next_part(self, index: int):
         """
