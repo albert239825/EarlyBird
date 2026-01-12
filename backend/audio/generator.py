@@ -7,6 +7,7 @@ import uuid
 from pydub import AudioSegment
 from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
+from backend.config import Config
 
 
 class PodcastAudioGenerator:
@@ -59,8 +60,7 @@ class PodcastAudioGenerator:
             voice_id=voice_id,
             output_format="mp3_22050_32",
             text=text,
-            # model_id="eleven_v3",  # high quality model
-            model_id="eleven_flash_v2_5",
+            model_id=Config.ELEVENLABS_MODEL_ID,
             voice_settings=VoiceSettings(
                 stability=0.5,
                 similarity_boost=0.5,
@@ -86,8 +86,7 @@ class PodcastAudioGenerator:
             voice_id=voice_id,
             output_format="mp3_22050_32",
             text=text,
-            #model_id="eleven_multilingual_v2",  # high quality model
-            model_id="eleven_flash_v2_5",  # Low latency model
+            model_id=Config.ELEVENLABS_MODEL_ID,
             voice_settings=VoiceSettings(
                 stability=0.5,
                 similarity_boost=0.5,

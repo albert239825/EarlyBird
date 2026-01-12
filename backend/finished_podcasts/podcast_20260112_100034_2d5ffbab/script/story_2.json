@@ -1,0 +1,35 @@
+{
+  "story_index": 2,
+  "utterances": [
+    {
+      "utterance_id": "u0",
+      "speaker": "host",
+      "text": "In Venezuela, the story is about narrow openings—moments of recognition that might shift momentum, even when the power balance looks fixed. In sports, momentum can flip on a single point, and that’s exactly what we saw from Georgetown women’s squash to open 2026. The Hoyas split a tight weekend road trip with three matches decided by the slimmest margin."
+    },
+    {
+      "utterance_id": "u1",
+      "speaker": "expert",
+      "text": "Georgetown, ranked 14th, went 1–2 on the road, and every match was a 5–4 final. They lost to Middlebury and Amherst, then beat Williams in the College Squash Association’s Match of the Week. That kind of parity is common in the top 15, where lineup depth matters and a single upset can swing the whole day."
+    },
+    {
+      "utterance_id": "u2",
+      "speaker": "host",
+      "text": "Who carried the load for Georgetown across the weekend? When matches are 5–4, you can usually point to a few athletes who kept the team in it."
+    },
+    {
+      "utterance_id": "u3",
+      "speaker": "expert",
+      "text": "Ella Erickson and Lindsay Lee went 3–0 on the trip, which is huge in a three-match weekend. Cici Curran and Sanah Syed were also strong at 2–1. In the win over Williams, Georgetown got victories from Curran, Erickson, Lee, Katie Hennessy, and Mary Kacergis."
+    },
+    {
+      "utterance_id": "u4",
+      "speaker": "host",
+      "text": "What does a weekend like this tell you about where the team is, early in the year? A 1–2 record doesn’t sound great, but those margins suggest something else."
+    },
+    {
+      "utterance_id": "u5",
+      "speaker": "expert",
+      "text": "It suggests they’re right in the mix, but they’re living on the edge, where the order of play and small tactical decisions matter. When you’re trading 5–4s, it often comes down to who can close out the fifth game in a single match. The upside is they’ve proven they can win tight ones, and they’ll get another test soon when they host Tufts."
+    }
+  ]
+}

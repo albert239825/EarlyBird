@@ -38,6 +38,10 @@ class Config:
     
     # Audio Generation
     GENERATE_AUDIO = os.getenv("GENERATE_AUDIO", "true").lower() == "true"
+    ELEVENLABS_MODEL_ID = os.getenv("ELEVENLABS_MODEL_ID", "eleven_flash_v2_5")
+    
+    # OpenAI Model Configuration
+    OPENAI_SCRIPT_MODEL = os.getenv("OPENAI_SCRIPT_MODEL", "gpt-4o")
     
     @classmethod
     def validate(cls):

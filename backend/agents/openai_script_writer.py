@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 import dotenv
 from openai import OpenAI
 import logging
+from backend.config import Config
 
 dotenv.load_dotenv()
 
@@ -22,7 +23,7 @@ class OpenAIScriptWriter:
         if not api_key:
             raise ValueError("OPENAI_API_KEY is required for OpenAIScriptWriter")
         self.client = OpenAI(api_key=api_key)
-        self.model = model or os.getenv("OPENAI_SCRIPT_MODEL", "gpt-4o")
+        self.model = model or Config.OPENAI_SCRIPT_MODEL
 
 #     def write_story_script(self, headline: str, research_md: str, max_utterances: int = 14) -> List[Dict[str, str]]:
 #         """
