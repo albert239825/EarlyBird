@@ -39,11 +39,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                       Previous Podcasts
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/podcast-graph" className="hover:underline">
-                      Podcast Graph
-                    </Link>
-                  </li>
                 </ul>
               </div>
             </nav>
