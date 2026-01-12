@@ -49,6 +49,7 @@ function Spinner() {
 
 export default function Home() {
   const router = useRouter()
+  const [numStoriesInput, setNumStoriesInput] = useState<string>("3")
   const [numStories, setNumStories] = useState<number>(3)
   const [categories, setCategories] = useState<Array<string | null>>(Array(3).fill(null))
   const [submitting, setSubmitting] = useState(false)
@@ -82,12 +83,31 @@ export default function Home() {
     return cat
   }
 
+  const getNumStoriesError = (): string | null => {
+    if (!numStoriesInput.trim()) return "Required"
+    const num = Number(numStoriesInput)
+    if (isNaN(num)) return "Must be a number"
+    if (num < 1) return "Minimum is 1"
+    if (num > 5) return "Maximum is 5"
+    if (!Number.isInteger(num)) return "Must be whole number"
+    return null
+  }
+
   const onNumStoriesChange = (raw: string) => {
-    const next = Math.max(1, Math.min(10, Number(raw || 1)))
-    setNumStories(next)
+    setNumStoriesInput(raw)
+  }
+
+  const onNumStoriesBlur = () => {
+    const num = Number(numStoriesInput)
+    const clamped = Math.floor(Math.max(1, Math.min(10, isNaN(num) ? 1 : num)))
+    
+    setNumStories(clamped)
+    setNumStoriesInput(String(clamped))
+    
+    // Update categories array to match new count
     setCategories((prev) => {
-      const copy = prev.slice(0, next)
-      while (copy.length < next) copy.push(null)
+      const copy = prev.slice(0, clamped)
+      while (copy.length < clamped) copy.push(null)
       return copy
     })
   }
@@ -217,9 +237,13 @@ export default function Home() {
                 type="number"
                 min={1}
                 max={10}
-                value={numStories}
+                value={numStoriesInput}
                 onChange={(e) => onNumStoriesChange(e.target.value)}
+                onBlur={onNumStoriesBlur}
               />
+              {getNumStoriesError() && (
+                <div className="text-sm text-destructive mt-1">{getNumStoriesError()}</div>
+              )}
             </div>
 
             <div className="space-y-4">
@@ -256,7 +280,7 @@ export default function Home() {
             <Button
               onClick={startGeneration}
               className="w-full h-11 px-8 rounded-md"
-              disabled={submitting}
+              disabled={submitting || !!getNumStoriesError()}
             >
               {submitting ? (
                 <>
