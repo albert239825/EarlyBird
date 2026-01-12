@@ -155,25 +155,43 @@ class OpenAIScriptWriter:
         user = f"""
 Write a single episode script with a host and an expert.
 
-Hard requirements:
-- Output JSON with EXACTLY this shape:
+CRITICAL FORMATTING RULES:
+- Create SEPARATE utterances for EACH section (intro, each story, each transition, outro)
+- DO NOT combine multiple sections into one utterance
+- DO NOT embed tags in the middle of text
+- Each utterance text MUST START with exactly ONE tag, then the spoken content
+
+Output JSON with EXACTLY this shape:
   {{
     "utterances": [
-      {{"utterance_id": "u0", "speaker": "host", "text": "<INTRO>..."}},
-      {{"utterance_id": "u1", "speaker": "expert", "text": "<INTRO>..."}}
+      {{"utterance_id": "u0", "speaker": "host", "text": "<INTRO>Welcome, coming up today..."}},
+      {{"utterance_id": "u1", "speaker": "host", "text": "<STORY_0>Let's start with..."}},
+      {{"utterance_id": "u2", "speaker": "expert", "text": "<STORY_0>That's right..."}},
+      {{"utterance_id": "u3", "speaker": "host", "text": "<TRANSITION_0_1>Now moving on..."}},
+      {{"utterance_id": "u4", "speaker": "host", "text": "<STORY_1>Next up..."}},
+      {{"utterance_id": "u5", "speaker": "host", "text": "<OUTRO>That's it for today. See you tomorrow."}}
     ]
   }}
+
+Requirements:
 - speaker must be "host" or "expert" (lowercase).
 - utterance_id must be sequential: u0, u1, ...
 - Maximum utterances: {max_utterances_total}
 - EVERY utterance text MUST start with exactly ONE of these tags (no exceptions):
-  - <INTRO>
-  - <STORY_0>, <STORY_1>, ... (use the correct story index)
-  - <TRANSITION_0_1>, <TRANSITION_1_2>, ... (transition from story A to story B)
-  - <OUTRO>
-- Intro: 2-4 short phrases previewing the stories ahead ("coming up..."), friendly but concise.
-- Between stories: include a host-led transition that references a takeaway from the previous story and tees up the next.
-- Outro: host must say the exact phrase "see you tomorrow".
+  - <INTRO> (for intro section)
+  - <STORY_0>, <STORY_1>, ... (for each story, use the correct index)
+  - <TRANSITION_0_1>, <TRANSITION_1_2>, ... (for transitions between stories)
+  - <OUTRO> (for closing)
+- Intro: Create 1-2 utterances with <INTRO> tag previewing the stories ahead ("coming up..."), friendly but concise.
+- Each story: Create MULTIPLE utterances (3-6 per story) with the <STORY_X> tag:
+  * Host introduces the story
+  * Expert provides analysis/context
+  * Host asks follow-up or expert continues
+  * Host wraps up that story
+- Between stories: Create a SEPARATE utterance with <TRANSITION_X_Y> tag where host transitions from story X to story Y.
+- Outro: Create 1 utterance with <OUTRO> tag where host says "see you tomorrow".
+
+IMPORTANT: Each utterance must be a SEPARATE entry in the utterances array. Do NOT combine multiple sections into one utterance.
 
 Episode stories (in order):
 {os.linesep.join(stories_blob)}
@@ -201,8 +219,32 @@ Episode stories (in order):
 
         logger.info("OpenAI API call completed successfully")
         content = resp.choices[0].message.content or ""
-        data = json.loads(content)
+        
+        # Log raw response for debugging
+        logger.info("=" * 80)
+        logger.info("RAW OPENAI RESPONSE (first 2000 chars):")
+        logger.info("=" * 80)
+        logger.info(content[:2000] + ("..." if len(content) > 2000 else ""))
+        logger.info("=" * 80)
+        
+        try:
+            data = json.loads(content)
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse JSON response: {e}")
+            logger.error(f"Full response content: {content}")
+            raise
+        
         utterances = data.get("utterances")
+        
+        # Log parsed utterances summary
+        logger.info(f"Parsed {len(utterances) if utterances else 0} utterances from response")
+        if utterances:
+            for i, u in enumerate(utterances[:10]):  # Log first 10
+                text_preview = u.get("text", "")[:100]
+                speaker = u.get("speaker", "unknown")
+                logger.info(f"  Utterance {i}: [{speaker}] {text_preview}...")
+            if len(utterances) > 10:
+                logger.info(f"  ... and {len(utterances) - 10} more utterances")
         if not isinstance(utterances, list) or not utterances:
             raise ValueError("OpenAI episode script writer returned no utterances")
 
