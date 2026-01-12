@@ -2,6 +2,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000"
 
@@ -21,6 +31,9 @@ type PodcastRow = {
 const PreviousPodcasts = () => {
   const [rows, setRows] = useState<PodcastRow[]>([])
   const [loading, setLoading] = useState(true)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [podcastToDelete, setPodcastToDelete] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     const fetchPodcasts = async () => {
@@ -85,6 +98,42 @@ const PreviousPodcasts = () => {
     fetchPodcasts()
   }, [])
 
+  const handleDeleteClick = (podcastId: string) => {
+    setPodcastToDelete(podcastId)
+    setDeleteDialogOpen(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!podcastToDelete) return
+
+    setDeleting(true)
+    try {
+      const response = await fetch(`${API_BASE}/podcasts/${podcastToDelete}`, {
+        method: "DELETE",
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData?.error || "Failed to delete podcast")
+      }
+
+      // Remove from local state
+      setRows((prev) => prev.filter((row) => row.podcastId !== podcastToDelete))
+      setDeleteDialogOpen(false)
+      setPodcastToDelete(null)
+    } catch (error) {
+      console.error("Error deleting podcast:", error)
+      alert(error instanceof Error ? error.message : "Failed to delete podcast")
+    } finally {
+      setDeleting(false)
+    }
+  }
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false)
+    setPodcastToDelete(null)
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -102,9 +151,30 @@ const PreviousPodcasts = () => {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {rows.map((row) => (
             <Card key={row.podcastId}>
-              <CardHeader>
+              <CardHeader className="relative">
                 <CardTitle>{row.datetimeLabel}</CardTitle>
                 <div className="text-xs text-muted-foreground font-mono">{row.podcastId}</div>
+                <button
+                  onClick={() => handleDeleteClick(row.podcastId)}
+                  className="absolute top-4 right-4 p-1.5 rounded-md hover:bg-destructive/10 text-destructive hover:text-destructive/80 transition-colors"
+                  aria-label="Delete podcast"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M3 6h18" />
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                  </svg>
+                </button>
               </CardHeader>
               <CardContent className="space-y-4">
                 {row.storyTitles.length > 0 && (
@@ -122,6 +192,29 @@ const PreviousPodcasts = () => {
           ))}
         </div>
       )}
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Podcast</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this podcast? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleDeleteCancel} disabled={deleting}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? "Deleting..." : "Yes, Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
