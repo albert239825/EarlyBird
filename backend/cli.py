@@ -20,11 +20,19 @@ def generate_podcast():
     logger.info("Starting podcast generation from CLI...")
     
     service = PodcastService()
-    result = service.generate_podcast()
+    podcast_dir = service.create_podcast_dir()
+    
+    result = service.generate_podcast(
+        podcast_dir=podcast_dir,
+        num_articles=2,
+        categories=["Technology", None, "Squash (Sport)"] 
+    )
     
     print(f"\n✓ Podcast generation complete!")
-    print(f"  Output directory: {result['podcast_dir']}")
-    print(f"  Transcript: {result['transcript_path']}")
+    print(f"  Podcast ID: {result['podcast_id']}")
+    print(f"  Output directory: {podcast_dir}")
+    print(f"  Stories: {len(result.get('stories', []))}")
+    print(f"\n  Check outputs in: {podcast_dir}")
 
 
 def generate_from_transcript(transcript_path: str):

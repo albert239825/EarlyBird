@@ -58,6 +58,114 @@ class PodcastPipeline:
             return []
         headlines = re.findall(r"<HEADLINE>(.*?)</HEADLINE>", response, re.DOTALL)
         return [h.strip() for h in headlines if h and h.strip()]
+
+    _UTTERANCE_TAG_RE = re.compile(
+        r"^<(INTRO|OUTRO|STORY_(\d+)|TRANSITION_(\d+)_(\d+))>\s*",
+        re.DOTALL,
+    )
+
+    def _split_episode_utterances(
+        self,
+        utterances: List[Dict[str, str]],
+        num_stories: int,
+    ) -> Dict[str, Any]:
+        """
+        Split a tagged episode utterance list into:
+          - intro_utterances
+          - outro_utterances
+          - story_utterances_by_index (with TRANSITION_a_b prepended to story b)
+
+        Tags are stripped from text.
+        """
+        intro: List[Dict[str, str]] = []
+        outro: List[Dict[str, str]] = []
+        stories: List[List[Dict[str, str]]] = [[] for _ in range(num_stories)]
+        transitions_to_prepend: List[List[Dict[str, str]]] = [[] for _ in range(num_stories)]
+
+        current_story = 0
+
+        for u in utterances or []:
+            if not isinstance(u, dict):
+                continue
+            speaker = u.get("speaker")
+            text = u.get("text")
+            if speaker not in ("host", "expert"):
+                continue
+            if not isinstance(text, str) or not text.strip():
+                continue
+
+            m = self._UTTERANCE_TAG_RE.match(text.strip())
+            tag_story_index: Optional[int] = None
+            transition_to_index: Optional[int] = None
+
+            stripped = text.strip()
+            if m:
+                # Groups:
+                # 1: INTRO|OUTRO|STORY_i|TRANSITION_a_b
+                # 2: story_i index
+                # 3: transition a
+                # 4: transition b
+                stripped = self._UTTERANCE_TAG_RE.sub("", stripped, count=1).strip()
+                if m.group(1) == "INTRO":
+                    intro.append({"speaker": speaker, "text": stripped})
+                    continue
+                if m.group(1) == "OUTRO":
+                    outro.append({"speaker": speaker, "text": stripped})
+                    continue
+                if m.group(2) is not None:
+                    tag_story_index = int(m.group(2))
+                if m.group(3) is not None and m.group(4) is not None:
+                    transition_to_index = int(m.group(4))
+            else:
+                # Missing tag: default to current story bucket.
+                logger.warning("Utterance missing tag; defaulting to current story bucket")
+
+            if transition_to_index is not None:
+                if 0 <= transition_to_index < num_stories:
+                    transitions_to_prepend[transition_to_index].append(
+                        {"speaker": speaker, "text": stripped}
+                    )
+                    continue
+                logger.warning(
+                    f"Transition targets invalid story index {transition_to_index}; dropping"
+                )
+                continue
+
+            if tag_story_index is not None:
+                if 0 <= tag_story_index < num_stories:
+                    current_story = tag_story_index
+                    stories[tag_story_index].append({"speaker": speaker, "text": stripped})
+                    continue
+                logger.warning(f"Story tag index out of range: {tag_story_index}; dropping")
+                continue
+
+            # Fallback: current story
+            if 0 <= current_story < num_stories:
+                stories[current_story].append({"speaker": speaker, "text": stripped})
+
+        # Prepend transitions to destination stories
+        for i in range(num_stories):
+            if transitions_to_prepend[i]:
+                stories[i] = transitions_to_prepend[i] + stories[i]
+
+        # Assign per-file sequential utterance_id fields (matching existing shape)
+        def _with_ids(items: List[Dict[str, str]]) -> List[Dict[str, str]]:
+            out: List[Dict[str, str]] = []
+            for idx, item in enumerate(items):
+                out.append(
+                    {
+                        "utterance_id": f"u{idx}",
+                        "speaker": item["speaker"],
+                        "text": item["text"],
+                    }
+                )
+            return out
+
+        return {
+            "intro_utterances": _with_ids(intro),
+            "outro_utterances": _with_ids(outro),
+            "story_utterances_by_index": [_with_ids(s) for s in stories],
+        }
     
     def _get_articles_from_perplexity(
         self,
@@ -234,6 +342,8 @@ class PodcastPipeline:
         self.state.emit_articles()
 
         stories_meta: List[Dict[str, Any]] = []
+        story_inputs_for_episode: List[Dict[str, str]] = []
+
         for story_index, story in enumerate(news_articles):
             logger.info(f"[story {story_index}] Researching via Perplexity...")
             researched = self.researcher.research_stories(story.title, story.abstract)
@@ -260,35 +370,67 @@ class PodcastPipeline:
             self.state.update_article_research(story_index, research_text)
             self.state.emit_articles()
 
-            logger.info(f"[story {story_index}] Writing HQ script via OpenAI...")
-            utterances = self.openai_script_writer.write_story_script(
-                headline=story.title,
-                research_md=research_md,
+            # Collect inputs for a single episode-level script generation call.
+            story_inputs_for_episode.append(
+                {
+                    "headline": story.title,
+                    "research_md": research_md,
+                    # optional: categories aren't currently persisted per story elsewhere
+                    "category": (categories[story_index] if categories and story_index < len(categories) else "") or "",
+                }
             )
 
-            script_obj = {
+            stories_meta.append({
                 "story_index": story_index,
-                "utterances": utterances,
-            }
+                "title": story.title,
+            })
+
+        # Episode-level script generation
+        logger.info("Writing full episode script via OpenAI (single call)...")
+        episode_utterances = self.openai_script_writer.write_episode_script(
+            stories=story_inputs_for_episode,
+        )
+        split = self._split_episode_utterances(
+            utterances=episode_utterances,
+            num_stories=num_articles,
+        )
+
+        # Write intro/outro script files (if present)
+        intro_utterances = split["intro_utterances"]
+        outro_utterances = split["outro_utterances"]
+
+        if intro_utterances:
+            (script_dir / "intro.json").write_text(
+                json.dumps({"story_index": -1, "utterances": intro_utterances}, indent=2, ensure_ascii=False),
+                encoding="utf-8",
+            )
+        if outro_utterances:
+            (script_dir / "outro.json").write_text(
+                json.dumps({"story_index": -2, "utterances": outro_utterances}, indent=2, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+        # Write per-story scripts (with transitions prepended to destination story)
+        story_utterances_by_index: List[List[Dict[str, str]]] = split["story_utterances_by_index"]
+        for story_index, utterances in enumerate(story_utterances_by_index):
+            script_obj = {"story_index": story_index, "utterances": utterances}
             (script_dir / f"story_{story_index}.json").write_text(
                 json.dumps(script_obj, indent=2, ensure_ascii=False),
                 encoding="utf-8",
             )
 
             # Update state with a compatible structure for current clients
-            self.state.update_article_script(story_index, {
-                "to_generate_index": len(utterances),
-                "main_remaining": 0,
-                "is_host": True,
-                "utterances": utterances,
-                "texts": [{"role": u["speaker"], "content": u["text"]} for u in utterances],
-            })
+            self.state.update_article_script(
+                story_index,
+                {
+                    "to_generate_index": len(utterances),
+                    "main_remaining": 0,
+                    "is_host": True,
+                    "utterances": utterances,
+                    "texts": [{"role": u["speaker"], "content": u["text"]} for u in utterances],
+                },
+            )
             self.state.emit_articles()
-
-            stories_meta.append({
-                "story_index": story_index,
-                "title": story.title,
-            })
 
         podcast_json = {
             "podcast_id": podcast_dir.name,
@@ -313,13 +455,36 @@ class PodcastPipeline:
         segments: List[Dict[str, Any]] = []
         segment_counter = 1
         
-        # Load all script files
-        script_files = sorted(script_dir.glob("story_*.json"))
+        # Load script files in order: intro -> stories -> outro
+        script_files: List[Path] = []
+        intro_path = script_dir / "intro.json"
+        outro_path = script_dir / "outro.json"
+        if intro_path.exists():
+            script_files.append(intro_path)
+        story_files = sorted(script_dir.glob("story_*.json"))
+        script_files.extend(story_files)
+        if outro_path.exists():
+            script_files.append(outro_path)
+
         logger.info(f"Generating audio segments from {len(script_files)} script files...")
         
         for script_file in script_files:
             script_data = json.loads(script_file.read_text(encoding="utf-8"))
-            story_index = script_data["story_index"]
+            story_index = script_data.get("story_index")
+            if story_index is None:
+                # Backward compatibility: if missing, infer from filename.
+                name = script_file.name
+                if name.startswith("story_") and name.endswith(".json"):
+                    try:
+                        story_index = int(name[len("story_") : -len(".json")])
+                    except Exception:
+                        story_index = -999
+                elif name == "intro.json":
+                    story_index = -1
+                elif name == "outro.json":
+                    story_index = -2
+                else:
+                    story_index = -999
             utterances = script_data["utterances"]
             
             for utterance in utterances:
