@@ -389,10 +389,33 @@ class PodcastPipeline:
         episode_utterances = self.openai_script_writer.write_episode_script(
             stories=story_inputs_for_episode,
         )
+        
+        # Log what we received from OpenAI
+        logger.info("=" * 80)
+        logger.info(f"RECEIVED {len(episode_utterances)} UTTERANCES FROM OPENAI:")
+        logger.info("=" * 80)
+        for i, u in enumerate(episode_utterances[:20]):  # Log first 20
+            text = u.get("text", "")[:150]
+            speaker = u.get("speaker", "unknown")
+            logger.info(f"  [{i}] [{speaker}]: {text}...")
+        if len(episode_utterances) > 20:
+            logger.info(f"  ... and {len(episode_utterances) - 20} more")
+        logger.info("=" * 80)
+        
         split = self._split_episode_utterances(
             utterances=episode_utterances,
             num_stories=num_articles,
         )
+        
+        # Log split results
+        logger.info("=" * 80)
+        logger.info("SPLIT RESULTS:")
+        logger.info("=" * 80)
+        logger.info(f"  Intro utterances: {len(split['intro_utterances'])}")
+        logger.info(f"  Outro utterances: {len(split['outro_utterances'])}")
+        for i, story_utts in enumerate(split['story_utterances_by_index']):
+            logger.info(f"  Story {i} utterances: {len(story_utts)}")
+        logger.info("=" * 80)
 
         # Write intro/outro script files (if present)
         intro_utterances = split["intro_utterances"]
