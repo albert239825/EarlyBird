@@ -36,7 +36,7 @@ type GenerationStatusResponse = {
   }
 }
 
-const CATEGORY_OPTIONS = ["Technology", "Science", "Business", "World News", "Politics", "Random"] as const
+const CATEGORY_OPTIONS = ["Technology", "Science", "Business", "World News", "Politics", "Custom", "Random"] as const
 
 function Spinner() {
   return (
@@ -59,10 +59,27 @@ export default function Home() {
 
   const totalStories = status?.total_stories ?? numStories
 
+  // Determine dropdown value: if category is not in CATEGORY_OPTIONS (excluding Custom/Random), it's Custom
   const categoryValue = useMemo(
-    () => categories.map((c) => c ?? "Random"),
+    () => categories.map((c) => {
+      if (c === null) return "Random"
+      // Check if it's one of the predefined options (excluding Custom and Random)
+      const predefined = ["Technology", "Science", "Business", "World News", "Politics"]
+      if (predefined.includes(c)) return c
+      // Otherwise it's a custom value
+      return "Custom"
+    }),
     [categories]
   )
+
+  // Get the custom text for display in the input
+  const getCustomCategoryText = (idx: number): string => {
+    const cat = categories[idx]
+    if (cat === null) return ""
+    const predefined = ["Technology", "Science", "Business", "World News", "Politics", "Random"]
+    if (predefined.includes(cat)) return ""
+    return cat
+  }
 
   const onNumStoriesChange = (raw: string) => {
     const next = Math.max(1, Math.min(10, Number(raw || 1)))
@@ -77,7 +94,24 @@ export default function Home() {
   const onCategoryChange = (idx: number, v: string) => {
     setCategories((prev) => {
       const copy = [...prev]
-      copy[idx] = v === "Random" ? null : v
+      if (v === "Random") {
+        copy[idx] = null
+      } else if (v === "Custom") {
+        // Keep existing custom text if available, otherwise set to empty string
+        const existingCustom = getCustomCategoryText(idx)
+        copy[idx] = existingCustom || ""
+      } else {
+        copy[idx] = v
+      }
+      return copy
+    })
+  }
+
+  const onCustomCategoryChange = (idx: number, value: string) => {
+    // Update the category directly with the custom value
+    setCategories((prev) => {
+      const copy = [...prev]
+      copy[idx] = value || null
       return copy
     })
   }
@@ -89,6 +123,7 @@ export default function Home() {
     setPodcastId(null)
 
     try {
+      // Categories are already in the correct format (string or null)
       const res = await fetch(`${API_BASE}/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -203,6 +238,16 @@ export default function Home() {
                       </option>
                     ))}
                   </select>
+                  {categoryValue[idx] === "Custom" && (
+                    <Input
+                      id={`custom-cat-${idx}`}
+                      type="text"
+                      placeholder="Enter custom category or topic"
+                      value={getCustomCategoryText(idx)}
+                      onChange={(e) => onCustomCategoryChange(idx, e.target.value)}
+                      className="mt-2"
+                    />
+                  )}
                 </div>
               ))}
             </div>
