@@ -86,7 +86,7 @@ const PodcastGraph: React.FC = () => {
             x,
             y,
             z,
-            mode: 'markers+text',
+            mode: 'markers+text' as const,
             marker: { size: 10, color: colors }, // Increased marker size
             type: 'scatter3d',
             text: labels,

@@ -42,8 +42,7 @@ backend/
 │   └── perplexity.py             # Perplexity SDK wrapper
 │
 ├── audio/                        # Audio generation
-│   ├── generator.py              # ElevenLabs TTS + segment management
-│   └── voices.py                 # Voice configuration utility
+│   └── generator.py              # ElevenLabs TTS + segment management
 │
 ├── models/                       # Data models
 │   └── article.py                # Article data model
