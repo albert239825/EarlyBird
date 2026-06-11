@@ -1,78 +1,95 @@
 # Early Bird: A Dynamic Podcast Generator
 
-Our app is built with **Next.js** and **ShadCN** for the frontend, and **Flask** for the backend. We've implemented an agentic workflow that collects current events based on user-selected interests, and generates a personalized podcast. The podcast generation workflow is fully automated, with each step orchestrated through AI agents.
+A personalized podcast app that scrapes current events based on user-selected interests, performs deep research, generates conversational scripts in the style of NPR's *Up First*, and converts them to natural-sounding audio — all orchestrated through AI agents.
+
+Built with **Next.js 15** and **Shadcn/UI** on the frontend, **Flask** with **Flask-SocketIO** on the backend, and powered by **Perplexity Sonar**, **OpenAI GPT-4o**, and **ElevenLabs** for the AI pipeline.
+
+## Demo
+
+> Generate a podcast in under 2 minutes: select your topics, watch as research + scripts are generated in real-time, then listen with full playback controls and a live transcript.
 
 ## Project Structure
 
 ```
 backend/
-├── app.py                      # Flask app entry point
-├── cli.py                      # CLI commands
-├── config.py                   # Centralized configuration
+├── app.py                        # Flask + SocketIO entry point
+├── cli.py                        # CLI commands for headless generation
+├── config.py                     # Centralized configuration
 │
-├── api/                        # API layer
-│   ├── routes.py               # HTTP routes
-│   ├── websocket.py            # WebSocket handlers
-│   └── middleware.py           # Error handlers, CORS
+├── api/                          # API layer
+│   ├── routes.py                 # REST endpoints
+│   ├── websocket.py              # SocketIO real-time handlers
+│   └── middleware.py             # Error handlers, CORS
 │
-├── core/                       # Business logic
-│   ├── podcast_service.py      # Main podcast generation service
-│   ├── pipeline.py             # Orchestration pipeline
-│   └── state_manager.py        # State management
+├── core/                         # Business logic
+│   ├── podcast_service.py        # Service coordinating pipeline + storage
+│   ├── pipeline.py               # Orchestration: scrape → research → script → audio
+│   └── state_manager.py          # Generation state management
 │
-├── agents/                     # AI agents
-│   ├── scraper.py              # News scraping
-│   ├── researcher.py           # Deep research
-│   ├── script_generator.py     # Script generation
-│   └── perplexity.py           # Perplexity API wrapper
+├── agents/                       # AI agents
+│   ├── scraper.py                # News scraping via Perplexity
+│   ├── researcher.py             # Deep research via Perplexity
+│   ├── openai_script_writer.py   # Episode script generation (GPT-4o)
+│   └── perplexity.py             # Perplexity SDK wrapper
 │
-├── audio/                      # Audio generation
-│   ├── generator.py            # Audio generation
-│   └── voices.py               # Voice configuration
+├── audio/                        # Audio generation
+│   ├── generator.py              # ElevenLabs TTS + segment management
+│   └── voices.py                 # Voice configuration utility
 │
-├── models/                     # Data models
-│   └── article.py              # Article data model
+├── models/                       # Data models
+│   └── article.py                # Article data model
 │
-├── storage/                    # File storage
-│   ├── podcast_storage.py      # Podcast file management
-│   └── paths.py                # Path utilities
+├── storage/                      # File storage
+│   ├── podcast_storage.py        # Podcast file + metadata management
+│   └── paths.py                  # Path utilities
 │
-└── utils/                      # Shared utilities
-    └── logging_config.py       # Logging configuration
+├── tests/                        # Unit + integration tests
+│   └── ...
+│
+└── utils/                        # Shared utilities
+    └── logging_config.py         # Logging configuration
+
+client/early-bird/
+├── src/app/
+│   ├── page.tsx                  # Home — podcast generation UI
+│   ├── previous-podcasts/        # Browse & delete past episodes
+│   ├── podcast-view/[id]/        # Playback with transcript
+│   └── podcast-graph/            # 3D article embedding visualization
+├── src/components/
+│   ├── AudioPlayer.tsx           # Segment-based audio player
+│   ├── PodcastCard.tsx           # Episode card component
+│   └── ui/                       # Shadcn/UI primitives
+└── ...
 ```
 
 ## Getting Started
 
 ### Prerequisites
-- Python 3.8+
-- Node.js 16+
-- Required API keys (see Configuration)
+
+- Python 3.10+
+- Node.js 18+
+- API keys (see [Configuration](#configuration))
 
 ### Installation
 
-1. **Clone the repository:**
 ```bash
-git clone https://github.com/yourusername/EarlyBird.git
+git clone https://github.com/albert239825/EarlyBird.git
 cd EarlyBird
-```
 
-2. **Install Python dependencies:**
-```bash
+# Backend
 pip install -r requirements.txt
-```
 
-3. **Install frontend dependencies:**
-```bash
+# Frontend
 cd client/early-bird
 npm install
 ```
 
 ### Configuration
 
-Create a `.env` file in the project root with the following API keys:
+Create a `.env` file in the project root:
 
 ```env
-# Required API Keys
+# Required
 PERPLEXITY_API_KEY=your_perplexity_key
 OPENAI_API_KEY=your_openai_key
 MISTRAL_API_KEY=your_mistral_key
@@ -80,181 +97,125 @@ ELEVENLABS_API_KEY=your_elevenlabs_key
 
 # Optional
 NYT_API_KEY=your_nyt_key
-
-# Flask Configuration (optional)
 FLASK_HOST=0.0.0.0
 FLASK_PORT=8000
 FLASK_DEBUG=True
-
-# Audio Generation (optional, defaults to true)
-# Set to false to skip audio generation and save ElevenLabs credits
-# Useful for testing scripts and research without generating audio
-GENERATE_AUDIO=true
-
-# ElevenLabs Model (optional, defaults to eleven_flash_v2_5)
-# Options: eleven_flash_v2_5 (fast, low latency), eleven_v3 (high quality)
-ELEVENLABS_MODEL_ID=eleven_flash_v2_5
-
-# OpenAI Script Model (optional, defaults to gpt-4o)
-# Options: gpt-4o, gpt-4-turbo, gpt-3.5-turbo, etc.
-OPENAI_SCRIPT_MODEL=gpt-4o
+GENERATE_AUDIO=true                    # Set false to skip TTS and save credits
+ELEVENLABS_MODEL_ID=eleven_flash_v2_5  # or eleven_v3 for higher quality
+OPENAI_SCRIPT_MODEL=gpt-4o            # Model used for script generation
 ```
 
 ### Running the Application
 
-**Start both backend and frontend:**
 ```bash
-# From project root - opens two separate Terminal windows
-./start.sh
-# or
-npm start
+# Terminal 1 — Backend (port 8000)
+python -m backend.app
+
+# Terminal 2 — Frontend (port 3000)
+cd client/early-bird
+npx next dev -p 3000
 ```
 
-The script automatically:
-- Opens a Terminal window for the backend (uses `.venv/bin/python`)
-- Opens a Terminal window for the frontend (runs `npx next dev -p 3000`)
+On macOS, `./start.sh` opens both in separate Terminal windows automatically.
 
-## Running Tests
+## How It Works
 
-### Backend (pytest)
+The generation pipeline is fully automated and runs in four stages:
 
-1. **Install Python dependencies (includes pytest):**
-
-```bash
-pip install -r requirements.txt
+```
+User selects topics → Scrape headlines → Deep research → Generate script → Text-to-speech
 ```
 
-2. **Run unit tests (mocked by default):**
+### 1. Event Scraping
 
-```bash
-pytest
-```
+The `NewsScraperAgent` queries **Perplexity Sonar** for trending headlines in user-selected categories (Technology, Science, Business, etc.). Multiple headlines per category are fetched in a single API call.
 
-3. **Run integration tests (real external API calls):**
+### 2. Deep Research
 
-Integration tests are behind the `integration` marker and are **skipped by default**. Run them explicitly with:
+The `DeepResearchAgent` performs follow-up research on each headline via Perplexity, gathering multiple perspectives, expert opinions, statistical data, and context to ensure unbiased coverage.
 
-```bash
-pytest -m integration
-```
+### 3. Script Generation
 
-4. **Required env vars for integration tests:**
+The `OpenAIScriptWriter` generates a full episode script in a single GPT-4o call. The output is a structured JSON of utterances between a **host** and an **expert**, tagged by section (`<INTRO>`, `<STORY_N>`, `<TRANSITION_A_B>`, `<OUTRO>`). Each story targets ~3 minutes of spoken audio.
 
-- `OPENAI_API_KEY` (required by the OpenAI script writer integration smoke test)
-- `PERPLEXITY_API_KEY` (required once we add Perplexity-backed integration tests)
+### 4. Audio Generation
 
-**Using the CLI:**
-```bash
-# Generate a new podcast (full pipeline: scripts + audio)
-python -m backend.cli generate
+The `PodcastAudioGenerator` sends each utterance to **ElevenLabs** for TTS conversion, producing individual MP3 segments. A manifest file maps segments to stories, enabling the frontend's segment-based audio player with seek and speed controls.
 
-# Generate scripts only (Phase 1) - creates new podcast
-python -m backend.cli generate-script
+### 5. Real-Time Progress
 
-# Generate scripts for existing podcast
-python -m backend.cli generate-script podcast_20260112_100034_2d5ffbab
-
-# Generate scripts with custom categories (use null for random)
-python -m backend.cli generate-script --num-articles 3 --categories '["Technology", null, "Squash (Sport)"]'
-
-# Generate audio for existing podcast (Phase 2)
-python -m backend.cli generate-audio podcast_20260112_100034_2d5ffbab
-
-# Generate audio from existing transcript
-python -m backend.cli from-transcript path/to/transcript.txt
-```
-
-## Workflow
-
-1. **Event Scraping:**  
-   We begin by launching a request to **Perplexity Sonar** to scrape current events based on predefined categories. The result is a list of headlines that represent the most relevant news stories.
-
-2. **Deep Research:**  
-   The headlines are sent to a **Perplexity Sonar agent** for thorough research, gathering additional information and context about each story.
-
-3. **Podcast Script Generation:**  
-   Specialized **Mistral agents** (Expert and Host) collaborate to generate the podcast script, creating a natural, flowing conversation.
-
-4. **Text-to-Speech:**  
-   The script is sent to **ElevenLabs** for text-to-speech conversion, creating natural-sounding audio.
-
-5. **User Interaction:**  
-   The generated audio is presented to the user, who can interrupt at any point to ask follow-up questions. The Expert Agent responds in real time.
+The frontend polls the `/generate/status/<id>` endpoint for progress updates. As each phase completes, artifacts (titles, research docs, scripts) become available for display.
 
 ## Architecture
 
 The backend follows a clean, layered architecture:
 
-- **API Layer** (`api/`): Handles HTTP requests and WebSocket connections
-- **Service Layer** (`core/`): Contains business logic and orchestration
-- **Agent Layer** (`agents/`): Individual AI agents for specific tasks
-- **Storage Layer** (`storage/`): File management and persistence
-- **Models** (`models/`): Data structures and domain models
+| Layer | Directory | Responsibility |
+|-------|-----------|---------------|
+| **API** | `api/` | REST endpoints, WebSocket handlers, middleware |
+| **Service** | `core/` | Business logic, pipeline orchestration, state |
+| **Agents** | `agents/` | Individual AI agents (scraping, research, scripting) |
+| **Audio** | `audio/` | ElevenLabs TTS integration |
+| **Storage** | `storage/` | File management, metadata persistence |
+| **Models** | `models/` | Data structures |
 
-This separation ensures:
-- **Testability**: Each layer can be tested independently
-- **Maintainability**: Changes in one layer don't affect others
-- **Clarity**: Clear responsibilities for each component
-- **Extensibility**: Easy to add new features
+Key design decisions:
+- **Two-phase generation**: Phase 1 (research + script) can run without API credits for ElevenLabs; Phase 2 (audio) is optional
+- **Background threading**: Generation runs in a daemon thread so the API responds immediately with a `podcast_id`
+- **Segment-based playback**: Instead of one monolithic MP3, each utterance is a separate file — enabling interruptions and seek
+
+## Testing
+
+```bash
+# Unit tests (mocked, no API keys needed)
+pytest
+
+# Integration tests (requires API keys)
+pytest -m integration
+```
+
+## CLI
+
+```bash
+# Full pipeline (research + script + audio)
+python -m backend.cli generate
+
+# Script only (Phase 1)
+python -m backend.cli generate-script
+
+# Audio only (Phase 2, requires existing scripts)
+python -m backend.cli generate-audio <podcast_id>
+
+# Custom categories
+python -m backend.cli generate-script --num-articles 3 --categories '["Technology", null, "Science"]'
+
+# Generate from existing transcript
+python -m backend.cli from-transcript path/to/transcript.txt
+```
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| Frontend | Next.js 15 (App Router), TypeScript, Tailwind CSS, Shadcn/UI |
+| 3D Visualization | React Three Fiber, Three.js |
+| Backend | Flask, Flask-SocketIO, Python |
+| News Scraping | Perplexity Sonar API |
+| Script Generation | OpenAI GPT-4o |
+| Text-to-Speech | ElevenLabs (eleven_flash_v2_5 / eleven_v3) |
+| Research | Perplexity Sonar (deep research mode) |
+| Audio Processing | pydub |
+| AI Framework | LangChain (research agent) |
 
 ## Inspiration
 
 Every morning, I start my day by listening to *Up First* by NPR. While I love its concise format, I often found that:
-- Some stories didn't capture my interest.
-- At times, the content felt biased.
-- I wished I could ask follow-up questions in real time.
+- Some stories didn't capture my interest
+- At times, the content felt biased
+- I wished I could ask follow-up questions in real time
 
-These frustrations inspired us to build **Early Bird**—a dynamic podcast generator that not only curates the news you care about but also lets you interact with it.
-
-## What it does
-
-- Curates a personalized podcast based on current events
-- Allows real-time interaction through dynamic interruptions and expert responses
-- Provides a clean, modern interface for podcast consumption
-
-## How we built it
-
-- **Front End:**  
-  - **Next.js** with **ShadCN** for a responsive, modern user interface.
-- **Search:**  
-  - Integrated **Perplexity Sonar** to fetch up-to-date news.
-- **Response Generation:**  
-  - Employed **Mistral** for low-latency, dynamic response generation.
-- **Backend:**  
-  - Built using **Flask** in Python with a clean, layered architecture.
-- **Voice Generation:**  
-  - Leveraged **ElevenLabs** to convert scripts into natural-sounding audio.
-
-## Challenges we ran into
-
-- **Building an Interruption System:**  
-  - Initially, we generated a single MP3 file for each podcast, which made it difficult to incorporate interactivity. This led to challenges in ensuring real-time responsiveness to user questions.
-- **Pivoting for Reactivity:**  
-  - We quickly learned that listeners needed to interact with the content. This realization forced us to reengineer our pipeline to support dynamic interruptions and follow-up responses.
-
-## Accomplishments that we're proud of
-
-- Successfully implementing a fully agentic pipeline for podcast generation
-- Creating a responsive, immersive experience that gives users control over their podcast content
-- Building a clean, maintainable architecture that's easy to understand and extend
-
-## What we learned
-
-- The importance of reactivity in content delivery: Podcasts can be more engaging when listeners have the ability to interact with the content
-- The power of automation: By using AI agents, we were able to automate complex workflows
-- Clean architecture matters: Separating concerns makes the codebase easier to maintain and extend
-
-## What's next for Early Bird
-
-- Expanding personalization options with user interest profiles
-- Improving the accuracy and depth of the research agents
-- Further enhancing interactivity with more dynamic user feedback mechanisms
-- Adding support for multiple languages and voices
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+These frustrations inspired **Early Bird** — a dynamic podcast generator that curates the news you care about and lets you interact with it.
 
 ## License
 
-[Add your license here]
+MIT
