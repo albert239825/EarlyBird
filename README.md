@@ -4,6 +4,15 @@ A personalized podcast app that scrapes current events based on user-selected in
 
 Built with **Next.js 15** and **Shadcn/UI** on the frontend, **Flask** with **Flask-SocketIO** on the backend, and powered by **Perplexity Sonar**, **OpenAI GPT-4o**, and **ElevenLabs** for the AI pipeline.
 
+## Inspiration
+
+Every morning, I start my day by listening to *Up First* by NPR. While I love its concise format, I often found that:
+- Some stories didn't capture my interest
+- At times, the content felt biased
+- I wished I could ask follow-up questions in real time
+
+These frustrations inspired **Early Bird** — a dynamic podcast generator that curates the news you care about and lets you interact with it.
+
 ## Demo
 
 > Generate a podcast in under 2 minutes: select your topics, watch as research + scripts are generated in real-time, then listen with full playback controls and a live transcript.
@@ -206,15 +215,6 @@ python -m backend.cli from-transcript path/to/transcript.txt
 | Research | Perplexity Sonar (deep research mode) |
 | Audio Processing | pydub |
 | AI Framework | LangChain (research agent) |
-
-## Inspiration
-
-Every morning, I start my day by listening to *Up First* by NPR. While I love its concise format, I often found that:
-- Some stories didn't capture my interest
-- At times, the content felt biased
-- I wished I could ask follow-up questions in real time
-
-These frustrations inspired **Early Bird** — a dynamic podcast generator that curates the news you care about and lets you interact with it.
 
 ## License
 
