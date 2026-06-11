@@ -39,14 +39,14 @@ def test_generate_research_and_script_assets_writes_files(
 
     monkeypatch.setattr(pipeline.researcher, "research_stories", _fake_research_stories)
 
-    def _fake_write_story_script(headline, research_md, max_utterances=14):
+    def _fake_write_episode_script(stories, max_utterances_total=100):
         return [
             {"utterance_id": "u0", "speaker": "host", "text": "Host line."},
             {"utterance_id": "u1", "speaker": "expert", "text": "Expert line."},
         ]
 
     monkeypatch.setattr(
-        pipeline.openai_script_writer, "write_story_script", _fake_write_story_script
+        pipeline.openai_script_writer, "write_episode_script", _fake_write_episode_script
     )
 
     out = pipeline.generate_research_and_script_assets(tmp_podcast_dir, num_articles=1)
@@ -68,4 +68,3 @@ def test_generate_research_and_script_assets_writes_files(
     assert "research" in state.articles[0]
     assert "script" in state.articles[0]
     assert state.articles[0]["script"]["texts"][0]["role"] == "host"
-

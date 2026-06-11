@@ -20,7 +20,10 @@ def test_openai_script_writer_parses_json(monkeypatch):
 
     monkeypatch.setattr(writer.client.chat.completions, "create", _fake_create)
 
-    utterances = writer.write_story_script(headline="Test", research_md="Research", max_utterances=4)
+    utterances = writer.write_episode_script(
+        stories=[{"headline": "Test", "research_md": "Research"}],
+        max_utterances_total=4,
+    )
     assert len(utterances) == 2
     assert utterances[0]["speaker"] == "host"
     assert utterances[1]["speaker"] == "expert"
@@ -37,7 +40,10 @@ def test_openai_script_writer_filters_invalid_utterances(monkeypatch):
 
     monkeypatch.setattr(writer.client.chat.completions, "create", _fake_create)
 
-    utterances = writer.write_story_script(headline="Test", research_md="Research", max_utterances=4)
+    utterances = writer.write_episode_script(
+        stories=[{"headline": "Test", "research_md": "Research"}],
+        max_utterances_total=4,
+    )
     assert utterances == [{"utterance_id": "u1", "speaker": "host", "text": "Ok"}]
 
 
@@ -47,14 +53,16 @@ def test_openai_script_writer_integration_smoke():
         pytest.skip("OPENAI_API_KEY not set")
 
     writer = OpenAIScriptWriter(api_key=os.environ["OPENAI_API_KEY"])
-    utterances = writer.write_story_script(
-        headline="A quick update on renewable energy adoption.",
-        research_md="## Core_summary\nAdoption is rising due to policy and cost declines.\n",
-        max_utterances=4,
+    utterances = writer.write_episode_script(
+        stories=[{
+            "headline": "A quick update on renewable energy adoption.",
+            "research_md": "## Core_summary\nAdoption is rising due to policy and cost declines.\n",
+        }],
+        max_utterances_total=4,
     )
     assert utterances
     assert utterances[0]["speaker"] in ("host", "expert")
-    
+
     # Print output for inspection
     print(f"\n{'='*60}")
     print(f"Integration test: Generated {len(utterances)} utterances")
@@ -64,4 +72,3 @@ def test_openai_script_writer_integration_smoke():
     if len(utterances) > 5:
         print(f"... and {len(utterances) - 5} more utterances")
     print(f"{'='*60}\n")
-
