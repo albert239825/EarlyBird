@@ -16,11 +16,6 @@
             "podcast_id": "podcast_20260112_100034_2d5ffbab"
         },
         {
-            "datetime": "2026-01-12 10:20:51",
-            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_101851_9bc38daa",
-            "podcast_id": "podcast_20260112_101851_9bc38daa"
-        },
-        {
             "datetime": "2026-01-12 10:27:24",
             "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_102629_a94005dd",
             "podcast_id": "podcast_20260112_102629_a94005dd"
@@ -29,6 +24,31 @@
             "datetime": "2026-01-12 12:02:56",
             "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_120156_7ef98860",
             "podcast_id": "podcast_20260112_120156_7ef98860"
+        },
+        {
+            "datetime": "2026-01-12 12:56:58",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_125617_1dfd0478",
+            "podcast_id": "podcast_20260112_125617_1dfd0478"
+        },
+        {
+            "datetime": "2026-01-12 13:11:00",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260112_131008_bac5e85f",
+            "podcast_id": "podcast_20260112_131008_bac5e85f"
+        },
+        {
+            "datetime": "2026-01-14 21:59:20",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260114_215844_0769eae4",
+            "podcast_id": "podcast_20260114_215844_0769eae4"
+        },
+        {
+            "datetime": "2026-01-15 15:31:55",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260115_153010_f1fb9515",
+            "podcast_id": "podcast_20260115_153010_f1fb9515"
+        },
+        {
+            "datetime": "2026-01-15 15:50:35",
+            "podcast_dir": "/Users/albert/projects/EarlyBird/backend/finished_podcasts/podcast_20260115_154836_aede0964",
+            "podcast_id": "podcast_20260115_154836_aede0964"
         }
     ]
 }
